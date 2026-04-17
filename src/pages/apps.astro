@@ -2,22 +2,34 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppCard from '../components/AppCard.astro';
 import { apps, sortAppsByStatus } from '../data/apps';
-import { categoryLabels, statusMeta } from '../data/site';
+import { categoryLabels, deliveryLabels, statusMeta } from '../data/site';
 
 const orderedApps = sortAppsByStatus(apps);
 ---
 
-<BaseLayout title="应用进度" description="50 Apps 计划的公开应用列表、状态和阶段进度。">
+<BaseLayout title="公开交付进度" description="50 Builds 计划的小程序、APP、开源项目公开进度。">
   <main>
     <section class="page-title">
       <div class="container">
-        <p class="section-kicker">APP BOARD</p>
-        <h1>应用进度</h1>
-        <p>公开同步的应用会逐步加入这里。状态只代表对外展示阶段，不等同于内部排期。</p>
+        <p class="section-kicker">BUILD BOARD</p>
+        <h1>公开交付进度</h1>
+        <p>这里同时同步小程序、APP 和开源项目。状态只代表对外展示阶段，不等同于内部排期。</p>
       </div>
     </section>
 
     <section class="container">
+      <div class="filters" aria-label="交付类型筛选">
+        <button class="filter-pill is-active" data-filter-kind="delivery" data-filter-value="all"
+          >全部类型</button
+        >
+        {
+          Object.entries(deliveryLabels).map(([key, label]) => (
+            <button class="filter-pill" data-filter-kind="delivery" data-filter-value={key}>
+              {label}
+            </button>
+          ))
+        }
+      </div>
       <div class="filters" aria-label="状态筛选">
         <button class="filter-pill is-active" data-filter-kind="status" data-filter-value="all"
           >全部状态</button
@@ -46,12 +58,12 @@ const orderedApps = sortAppsByStatus(apps);
       <div class="app-grid" id="appsGrid">
         {orderedApps.map((app) => <AppCard app={app} />)}
       </div>
-      <p class="notice" id="emptyNotice" hidden>当前筛选下还没有应用。</p>
+      <p class="notice" id="emptyNotice" hidden>当前筛选下还没有交付条目。</p>
     </section>
   </main>
 
   <script>
-    const state = { status: 'all', category: 'all' };
+    const state = { delivery: 'all', status: 'all', category: 'all' };
     const buttons = document.querySelectorAll('[data-filter-kind]');
     const cards = document.querySelectorAll('.app-card');
     const emptyNotice = document.getElementById('emptyNotice');
@@ -59,11 +71,13 @@ const orderedApps = sortAppsByStatus(apps);
     function applyFilters() {
       let visible = 0;
       cards.forEach((card) => {
+        const deliveryMatch =
+          state.delivery === 'all' || card.getAttribute('data-delivery') === state.delivery;
         const statusMatch =
           state.status === 'all' || card.getAttribute('data-status') === state.status;
         const categoryMatch =
           state.category === 'all' || card.getAttribute('data-category') === state.category;
-        const shouldShow = statusMatch && categoryMatch;
+        const shouldShow = deliveryMatch && statusMatch && categoryMatch;
         card.toggleAttribute('hidden', !shouldShow);
         if (shouldShow) visible += 1;
       });

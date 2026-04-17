@@ -1,5 +1,5 @@
 ---
-import { categoryLabels, statusMeta } from '../data/site';
+import { categoryLabels, deliveryLabels, statusMeta } from '../data/site';
 import type { AppProgress } from '../data/apps';
 
 interface Props {
@@ -11,7 +11,7 @@ const status = statusMeta[app.status];
 const fallback = app.name.slice(0, 1);
 ---
 
-<article class="app-card" data-status={app.status} data-category={app.category}>
+<article class="app-card" data-delivery={app.delivery} data-status={app.status} data-category={app.category}>
   <a href={`/apps/${app.slug}`} class="app-card-link" aria-label={`查看 ${app.name}`}>
     <div class="app-card-top">
       {
@@ -28,6 +28,7 @@ const fallback = app.name.slice(0, 1);
     </div>
     <h3>{app.name}</h3>
     <p>{app.tagline}</p>
+    <div class="delivery-chip">{deliveryLabels[app.delivery]}</div>
     <div class="progress-track" aria-label={`${app.name} 完成度 ${app.progress}%`}>
       <span style={`width: ${app.progress}%`}></span>
     </div>

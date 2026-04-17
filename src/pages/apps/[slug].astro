@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { apps } from '../../data/apps';
-import { categoryLabels, statusMeta } from '../../data/site';
+import { categoryLabels, deliveryLabels, statusMeta } from '../../data/site';
 
 export function getStaticPaths() {
   return apps.map((app) => ({
@@ -39,7 +39,7 @@ const fallback = app.name.slice(0, 1);
 
     <section class="container detail-grid">
       <article class="detail-panel">
-        <p class="section-kicker">APP STORY</p>
+        <p class="section-kicker">DELIVERY STORY</p>
         <h2>公开进度</h2>
         <p>{app.summary}</p>
         <div class="progress-track" aria-label={`${app.name} 完成度 ${app.progress}%`}>
@@ -52,6 +52,7 @@ const fallback = app.name.slice(0, 1);
 
       <aside class="detail-panel">
         <p class="section-kicker">STATUS</p>
+        <p><strong>类型：</strong>{deliveryLabels[app.delivery]}</p>
         <p><strong>阶段：</strong>{status.label}</p>
         <p><strong>分类：</strong>{categoryLabels[app.category]}</p>
         <p><strong>月份：</strong>{app.month}</p>

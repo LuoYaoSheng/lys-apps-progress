@@ -18,31 +18,31 @@ const completion = Math.round((stats.released / target.total) * 100);
     <section class="hero">
       <HeroIconWall />
       <div class="container">
-        <span class="eyebrow">{target.year} · 50 Apps</span>
-        <h1>一年 50 个应用，公开记录每一次交付。</h1>
+        <span class="eyebrow">{target.year} · 50 Builds</span>
+        <h1>一年 50 个公开作品，记录每一次交付。</h1>
         <p class="hero-lead">
-          从想法、设计、开发、测试到发布，每个应用都留下公开进度。小应用也要完整、可用、可传播。
+          小程序、APP、开源项目都算交付。从想法、设计、开发、测试到发布，每个公开作品都留下进度。
         </p>
         <div class="hero-actions">
-          <a class="button-primary" href="/apps">查看应用进度</a>
-          <a class="button-secondary" href="/wishlist">提交应用想法</a>
+          <a class="button-primary" href="/apps">查看交付进度</a>
+          <a class="button-secondary" href="/wishlist">提交想法</a>
         </div>
         <div class="metric-strip" aria-label="年度进度">
           <div class="metric">
             <strong>{stats.released}</strong>
-            <span>已发布应用</span>
+            <span>已发布作品</span>
           </div>
           <div class="metric">
             <strong>{target.total}</strong>
             <span>年度目标</span>
           </div>
           <div class="metric">
-            <strong>{stats.active}</strong>
-            <span>正在推进</span>
+            <strong>{stats.openSource}</strong>
+            <span>开源项目</span>
           </div>
           <div class="metric">
-            <strong>{completion}%</strong>
-            <span>发布完成度</span>
+            <strong>{stats.appCount + stats.miniPrograms}</strong>
+            <span>APP / 小程序</span>
           </div>
         </div>
       </div>
@@ -53,12 +53,12 @@ const completion = Math.round((stats.released / target.total) * 100);
         <div class="section-header">
           <div>
             <p class="section-kicker">NOW SHIPPING</p>
-            <h2>正在推进的第一批应用</h2>
+            <h2>正在推进的第一批公开作品</h2>
             <p>
-              优先同步能公开讲清楚价值的应用。每个项目只展示公开状态，不暴露内部代码和私有排期。
+              这里同时包含小程序、APP 和开源项目。每个条目只展示公开状态，不暴露内部代码和私有排期。
             </p>
           </div>
-          <a class="button-dark" href="/apps">全部应用</a>
+          <a class="button-dark" href="/apps">全部交付</a>
         </div>
         <div class="app-grid">
           {activeApps.map((app) => <AppCard app={app} />)}
@@ -70,9 +70,9 @@ const completion = Math.round((stats.released / target.total) * 100);
       <div class="container story-grid">
         <div class="story-panel">
           <p class="section-kicker">THE RULE</p>
-          <h2>每个应用都要小而完整</h2>
+          <h2>每个交付都要小而完整</h2>
           <p>
-            目标不是堆功能。每个应用只抓一个明确场景，先完成能被真实使用、能被截图传播、能被持续迭代的版本。
+            目标不是堆功能。每个小程序、APP 或开源项目都抓一个明确场景，先完成能被真实使用、能被截图传播、能被持续迭代的版本。
           </p>
           <div class="section-actions">
             <a class="button-primary" href="/timeline">看时间线</a>

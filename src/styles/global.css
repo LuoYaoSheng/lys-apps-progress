@@ -445,6 +445,18 @@ img {
   line-height: 1.65;
 }
 
+.delivery-chip {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 12px;
+  padding: 5px 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--ink);
+  background: var(--panel-strong);
+  font-size: 13px;
+  font-weight: 850;
+}
+
 .status-badge {
   display: inline-flex;
   padding: 6px 9px;

@@ -4,13 +4,13 @@ import { wishlistSeeds } from '../data/apps';
 import { categoryLabels, siteMeta } from '../data/site';
 ---
 
-<BaseLayout title="愿望池" description="提交适合 50 Apps 计划的小应用想法。">
+<BaseLayout title="愿望池" description="提交适合 50 Builds 计划的小应用、开源项目或工具想法。">
   <main>
     <section class="page-title">
       <div class="container">
         <p class="section-kicker">PUBLIC WISHBOARD</p>
         <h1>愿望池</h1>
-        <p>提交一个清楚、具体、足够小的应用想法。被采纳的方向会进入公开候选池。</p>
+        <p>提交一个清楚、具体、足够小的小应用、开源项目或工具想法。被采纳的方向会进入公开候选池。</p>
       </div>
     </section>
 
@@ -23,7 +23,7 @@ import { categoryLabels, siteMeta } from '../data/site';
           data-gitee-url={siteMeta.wishlist.giteeIssueUrl}
         >
           <div class="field">
-            <label for="ideaName">应用名字或一句话标题</label>
+            <label for="ideaName">名字或一句话标题</label>
             <input
               id="ideaName"
               name="ideaName"
@@ -95,7 +95,7 @@ import { categoryLabels, siteMeta } from '../data/site';
     ) {
       const title = `[愿望池] ${data.ideaName}`;
       const body = [
-        '## 应用想法',
+        '## 想法',
         data.ideaName,
         '',
         '## 分类',
