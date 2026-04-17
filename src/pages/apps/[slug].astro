@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { apps } from '../../data/apps';
+import { categoryLabels, statusMeta } from '../../data/site';
+
+export function getStaticPaths() {
+  return apps.map((app) => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+const { app } = Astro.props;
+const status = statusMeta[app.status];
+---
+
+<BaseLayout title={app.name} description={app.summary}>
+  <main>
+    <section class="detail-hero">
+      <div class="container detail-heading">
+        {app.icon ? (
+          <img src={app.icon} alt="" />
+        ) : (
+          <div class="detail-icon-fallback">{app.name.slice(0, 1)}</div>
+        )}
+        <div>
+          <span class={`status-badge tone-${status.tone}`}>{status.label}</span>
+          <h1>{app.name}</h1>
+          <p class="hero-lead" style="color: var(--muted); margin-top: 16px;">{app.tagline}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container detail-grid">
+      <article class="detail-panel">
+        <p class="section-kicker">APP STORY</p>
+        <h2>公开进度</h2>
+        <p>{app.summary}</p>
+        <div class="progress-track" aria-label={`${app.name} 完成度 ${app.progress}%`}>
+          <span style={`width: ${app.progress}%`}></span>
+        </div>
+        <ul class="tag-list">
+          {app.highlights.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+
+      <aside class="detail-panel">
+        <p class="section-kicker">STATUS</p>
+        <p><strong>阶段：</strong>{status.label}</p>
+        <p><strong>分类：</strong>{categoryLabels[app.category]}</p>
+        <p><strong>月份：</strong>{app.month}</p>
+        <p><strong>进度：</strong>{app.progress}%</p>
+        {app.shippedAt && <p><strong>发布：</strong>{app.shippedAt}</p>}
+        {app.website && <a class="button-primary" href={app.website} target="_blank" rel="noreferrer">访问应用</a>}
+      </aside>
+    </section>
+  </main>
+</BaseLayout>

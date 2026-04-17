@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { milestones } from '../data/apps';
+---
+
+<BaseLayout title="时间线" description="50 Apps 计划的公开进展记录。">
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="section-kicker">BUILD LOG</p>
+        <h1>时间线</h1>
+        <p>记录能公开的阶段变化、发布节点和内容同步，不展示内部敏感排期。</p>
+      </div>
+    </section>
+
+    <section class="container timeline">
+      {milestones.map((item) => (
+        <article class="timeline-item">
+          <div class="timeline-date">{item.date}</div>
+          <div class="timeline-copy">
+            <h2>{item.title}</h2>
+            <p>{item.summary}</p>
+          </div>
+        </article>
+      ))}
+    </section>
+  </main>
+</BaseLayout>

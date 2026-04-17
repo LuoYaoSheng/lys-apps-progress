@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { wishlistSeeds } from '../data/apps';
+import { categoryLabels, siteMeta } from '../data/site';
+---
+
+<BaseLayout title="愿望池" description="提交适合 50 Apps 计划的小应用想法。">
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="section-kicker">PUBLIC WISHBOARD</p>
+        <h1>愿望池</h1>
+        <p>提交一个清楚、具体、足够小的应用想法。被采纳的方向会进入公开候选池。</p>
+      </div>
+    </section>
+
+    <section class="container wishlist-layout">
+      <article class="form-panel">
+        <form class="idea-form" id="ideaForm" data-github-url={siteMeta.wishlist.githubIssueUrl} data-gitee-url={siteMeta.wishlist.giteeIssueUrl}>
+          <div class="field">
+            <label for="ideaName">应用名字或一句话标题</label>
+            <input id="ideaName" name="ideaName" maxlength="80" required placeholder="例如：发票拍照整理助手" />
+          </div>
+
+          <div class="field">
+            <label for="category">分类</label>
+            <select id="category" name="category" required>
+              {Object.entries(categoryLabels).map(([key, label]) => (
+                <option value={label}>{label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="problem">它解决什么具体问题？</label>
+            <textarea id="problem" name="problem" maxlength="1000" required placeholder="写清楚谁会用、在什么场景下用、现在为什么麻烦。"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="contact">署名或联系方式（可选）</label>
+            <input id="contact" name="contact" maxlength="120" placeholder="公开 Issue 中可见，谨慎填写。" />
+            <span class="hint">不要提交手机号、账号、密码、密钥、私人地址或未授权素材。</span>
+          </div>
+
+          <div class="form-actions">
+            <button class="button-primary" type="submit">生成 GitHub 提交</button>
+            <a class="button-secondary" id="giteeFallback" href={siteMeta.wishlist.giteeIssueUrl} target="_blank" rel="noreferrer">去 Gitee 提交</a>
+          </div>
+        </form>
+      </article>
+
+      <aside class="detail-panel">
+        <p class="section-kicker">GOOD FIT</p>
+        <h2>适合什么想法</h2>
+        <ul class="seed-list">
+          {wishlistSeeds.map((item) => <li>{item}</li>)}
+        </ul>
+        <p class="notice">
+          愿望池是公开入口。提交内容默认可以被整理、引用和进入公开路线图。
+        </p>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('ideaForm') as HTMLFormElement | null;
+    const giteeFallback = document.getElementById('giteeFallback');
+
+    function buildIssueUrl(baseUrl: string, data: { ideaName: string; category: string; problem: string; contact: string }) {
+      const title = `[愿望池] ${data.ideaName}`;
+      const body = [
+        '## 应用想法',
+        data.ideaName,
+        '',
+        '## 分类',
+        data.category,
+        '',
+        '## 具体场景',
+        data.problem,
+        '',
+        '## 署名或联系方式',
+        data.contact || '未填写',
+        '',
+        '## 提交说明',
+        '我确认没有提交账号、密码、密钥、私人地址或未授权素材。',
+      ].join('\n');
+
+      const params = new URLSearchParams({
+        title,
+        body,
+        labels: 'wishlist',
+      });
+
+      return `${baseUrl}?${params.toString()}`;
+    }
+
+    if (form) {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const data = {
+          ideaName: String(formData.get('ideaName') || '').trim(),
+          category: String(formData.get('category') || '').trim(),
+          problem: String(formData.get('problem') || '').trim(),
+          contact: String(formData.get('contact') || '').trim(),
+        };
+
+        if (!data.ideaName || !data.category || !data.problem) {
+          return;
+        }
+
+        const githubUrl = form.getAttribute('data-github-url');
+        const giteeUrl = form.getAttribute('data-gitee-url');
+        if (giteeUrl && giteeFallback) {
+          giteeFallback.setAttribute('href', buildIssueUrl(giteeUrl, data));
+        }
+        if (githubUrl) {
+          window.open(buildIssueUrl(githubUrl, data), '_blank', 'noopener,noreferrer');
+        }
+      });
+    }
+  </script>
+</BaseLayout>

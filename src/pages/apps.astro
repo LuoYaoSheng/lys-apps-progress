@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AppCard from '../components/AppCard.astro';
+import { apps } from '../data/apps';
+import { categoryLabels, statusMeta } from '../data/site';
+---
+
+<BaseLayout title="应用进度" description="50 Apps 计划的公开应用列表、状态和阶段进度。">
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="section-kicker">APP BOARD</p>
+        <h1>应用进度</h1>
+        <p>公开同步的应用会逐步加入这里。状态只代表对外展示阶段，不等同于内部排期。</p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="filters" aria-label="状态筛选">
+        <button class="filter-pill is-active" data-filter-kind="status" data-filter-value="all">全部状态</button>
+        {Object.entries(statusMeta).map(([key, item]) => (
+          <button class="filter-pill" data-filter-kind="status" data-filter-value={key}>{item.label}</button>
+        ))}
+      </div>
+      <div class="filters" aria-label="分类筛选">
+        <button class="filter-pill is-active" data-filter-kind="category" data-filter-value="all">全部分类</button>
+        {Object.entries(categoryLabels).map(([key, label]) => (
+          <button class="filter-pill" data-filter-kind="category" data-filter-value={key}>{label}</button>
+        ))}
+      </div>
+
+      <div class="app-grid" id="appsGrid">
+        {apps.map((app) => <AppCard app={app} />)}
+      </div>
+      <p class="notice" id="emptyNotice" hidden>当前筛选下还没有应用。</p>
+    </section>
+  </main>
+
+  <script>
+    const state = { status: 'all', category: 'all' };
+    const buttons = document.querySelectorAll('[data-filter-kind]');
+    const cards = document.querySelectorAll('.app-card');
+    const emptyNotice = document.getElementById('emptyNotice');
+
+    function applyFilters() {
+      let visible = 0;
+      cards.forEach((card) => {
+        const statusMatch = state.status === 'all' || card.getAttribute('data-status') === state.status;
+        const categoryMatch = state.category === 'all' || card.getAttribute('data-category') === state.category;
+        const shouldShow = statusMatch && categoryMatch;
+        card.toggleAttribute('hidden', !shouldShow);
+        if (shouldShow) visible += 1;
+      });
+      if (emptyNotice) emptyNotice.hidden = visible !== 0;
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const kind = button.getAttribute('data-filter-kind');
+        const value = button.getAttribute('data-filter-value') || 'all';
+        if (!kind) return;
+        state[kind as 'status' | 'category'] = value;
+        document.querySelectorAll(`[data-filter-kind="${kind}"]`).forEach((item) => {
+          item.classList.toggle('is-active', item === button);
+        });
+        applyFilters();
+      });
+    });
+  </script>
+</BaseLayout>

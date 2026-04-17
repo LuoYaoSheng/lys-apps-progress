@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AppCard from '../components/AppCard.astro';
+import HeroIconWall from '../components/HeroIconWall.astro';
+import { apps, getProgressStats, milestones } from '../data/apps';
+import { target } from '../data/site';
+
+const stats = getProgressStats();
+const activeApps = apps
+  .filter((app) => ['released', 'testing', 'building'].includes(app.status))
+  .slice(0, 6);
+const latestMilestones = milestones.slice(0, 3);
+const completion = Math.round((stats.released / target.total) * 100);
+---
+
+<BaseLayout>
+  <main>
+    <section class="hero">
+      <HeroIconWall />
+      <div class="container">
+        <span class="eyebrow">{target.year} · 50 Apps</span>
+        <h1>一年 50 个应用，公开记录每一次交付。</h1>
+        <p class="hero-lead">
+          从想法、设计、开发、测试到发布，每个应用都留下公开进度。小应用也要完整、可用、可传播。
+        </p>
+        <div class="hero-actions">
+          <a class="button-primary" href="/apps">查看应用进度</a>
+          <a class="button-secondary" href="/wishlist">提交应用想法</a>
+        </div>
+        <div class="metric-strip" aria-label="年度进度">
+          <div class="metric">
+            <strong>{stats.released}</strong>
+            <span>已发布应用</span>
+          </div>
+          <div class="metric">
+            <strong>{target.total}</strong>
+            <span>年度目标</span>
+          </div>
+          <div class="metric">
+            <strong>{stats.active}</strong>
+            <span>正在推进</span>
+          </div>
+          <div class="metric">
+            <strong>{completion}%</strong>
+            <span>发布完成度</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">NOW SHIPPING</p>
+            <h2>正在推进的第一批应用</h2>
+            <p>优先同步能公开讲清楚价值的应用。每个项目只展示公开状态，不暴露内部代码和私有排期。</p>
+          </div>
+          <a class="button-dark" href="/apps">全部应用</a>
+        </div>
+        <div class="app-grid">
+          {activeApps.map((app) => <AppCard app={app} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container story-grid">
+        <div class="story-panel">
+          <p class="section-kicker">THE RULE</p>
+          <h2>每个应用都要小而完整</h2>
+          <p>
+            目标不是堆功能。每个应用只抓一个明确场景，先完成能被真实使用、能被截图传播、能被持续迭代的版本。
+          </p>
+          <div class="section-actions">
+            <a class="button-primary" href="/timeline">看时间线</a>
+            <a class="button-secondary" href="/wishlist">投一个想法</a>
+          </div>
+        </div>
+        <div class="story-panel">
+          <p class="section-kicker">PUBLIC WISHLIST</p>
+          <h2>愿望池开放</h2>
+          <p>
+            有明确场景的小应用想法可以提交到愿望池。被采纳的想法会进入公开候选池，并在后续同步进度。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-kicker">LOG</p>
+            <h2>最近进展</h2>
+          </div>
+          <a class="button-secondary" href="/timeline">完整时间线</a>
+        </div>
+        <div class="timeline">
+          {latestMilestones.map((item) => (
+            <article class="timeline-item">
+              <div class="timeline-date">{item.date}</div>
+              <div class="timeline-copy">
+                <h2>{item.title}</h2>
+                <p>{item.summary}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
