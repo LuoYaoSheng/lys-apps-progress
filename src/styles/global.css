@@ -631,6 +631,28 @@ img {
   font-weight: 750;
 }
 
+.qrcode-box {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  width: fit-content;
+}
+
+.qrcode-box img {
+  width: 150px;
+  height: 150px;
+  border-radius: var(--radius);
+  border: 2px solid var(--ink);
+  background: #fff;
+  object-fit: cover;
+}
+
+.qrcode-box span {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 750;
+}
+
 .timeline {
   position: relative;
   display: grid;

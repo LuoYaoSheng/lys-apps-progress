@@ -16,6 +16,7 @@ export type AppProgress = {
   shippedAt?: string;
   icon?: string;
   website?: string;
+  qrcode?: string;
   summary: string;
   highlights: string[];
 };
@@ -32,9 +33,9 @@ export const apps: AppProgress[] = [
     month: '2026-04',
     shippedAt: '2026-04-17',
     icon: '/app-icons/couple-love.png',
-    website: 'https://lianlianjueding.anxiqing.cn',
+    qrcode: '/app-qrcodes/lianlian-jueding.jpg',
     summary: '情侣互动决策小程序，通过小游戏解决日常选择困难。',
-    highlights: ['情侣决策', '小游戏合集', '微信小程序', '已发布'],
+    highlights: ['情侣决策', '小游戏合集', '微信小程序上线', '扫码体验'],
   },
   {
     id: 'install-b',

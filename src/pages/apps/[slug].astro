@@ -71,6 +71,14 @@ const fallback = app.name.slice(0, 1);
             </a>
           )
         }
+        {
+          app.qrcode && (
+            <div class="qrcode-box">
+              <img src={app.qrcode} alt={`${app.name} 小程序码`} />
+              <span>微信扫码体验</span>
+            </div>
+          )
+        }
       </aside>
     </section>
   </main>
