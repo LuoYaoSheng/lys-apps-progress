@@ -50,6 +50,15 @@ npm run dev
 npm run build
 ```
 
+## 代码规范
+
+```bash
+npm run format
+npm run verify
+```
+
+`verify` 会依次执行格式检查、Astro 类型检查和静态构建。
+
 ## 开源边界
 
 可以公开：

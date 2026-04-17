@@ -18,11 +18,13 @@ const status = statusMeta[app.status];
   <main>
     <section class="detail-hero">
       <div class="container detail-heading">
-        {app.icon ? (
-          <img src={app.icon} alt="" />
-        ) : (
-          <div class="detail-icon-fallback">{app.name.slice(0, 1)}</div>
-        )}
+        {
+          app.icon ? (
+            <img src={app.icon} alt="" />
+          ) : (
+            <div class="detail-icon-fallback">{app.name.slice(0, 1)}</div>
+          )
+        }
         <div>
           <span class={`status-badge tone-${status.tone}`}>{status.label}</span>
           <h1>{app.name}</h1>
@@ -50,8 +52,21 @@ const status = statusMeta[app.status];
         <p><strong>分类：</strong>{categoryLabels[app.category]}</p>
         <p><strong>月份：</strong>{app.month}</p>
         <p><strong>进度：</strong>{app.progress}%</p>
-        {app.shippedAt && <p><strong>发布：</strong>{app.shippedAt}</p>}
-        {app.website && <a class="button-primary" href={app.website} target="_blank" rel="noreferrer">访问应用</a>}
+        {
+          app.shippedAt && (
+            <p>
+              <strong>发布：</strong>
+              {app.shippedAt}
+            </p>
+          )
+        }
+        {
+          app.website && (
+            <a class="button-primary" href={app.website} target="_blank" rel="noreferrer">
+              访问应用
+            </a>
+          )
+        }
       </aside>
     </section>
   </main>

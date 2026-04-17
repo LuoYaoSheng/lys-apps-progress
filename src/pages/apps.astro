@@ -17,16 +17,28 @@ import { categoryLabels, statusMeta } from '../data/site';
 
     <section class="container">
       <div class="filters" aria-label="状态筛选">
-        <button class="filter-pill is-active" data-filter-kind="status" data-filter-value="all">全部状态</button>
-        {Object.entries(statusMeta).map(([key, item]) => (
-          <button class="filter-pill" data-filter-kind="status" data-filter-value={key}>{item.label}</button>
-        ))}
+        <button class="filter-pill is-active" data-filter-kind="status" data-filter-value="all"
+          >全部状态</button
+        >
+        {
+          Object.entries(statusMeta).map(([key, item]) => (
+            <button class="filter-pill" data-filter-kind="status" data-filter-value={key}>
+              {item.label}
+            </button>
+          ))
+        }
       </div>
       <div class="filters" aria-label="分类筛选">
-        <button class="filter-pill is-active" data-filter-kind="category" data-filter-value="all">全部分类</button>
-        {Object.entries(categoryLabels).map(([key, label]) => (
-          <button class="filter-pill" data-filter-kind="category" data-filter-value={key}>{label}</button>
-        ))}
+        <button class="filter-pill is-active" data-filter-kind="category" data-filter-value="all"
+          >全部分类</button
+        >
+        {
+          Object.entries(categoryLabels).map(([key, label]) => (
+            <button class="filter-pill" data-filter-kind="category" data-filter-value={key}>
+              {label}
+            </button>
+          ))
+        }
       </div>
 
       <div class="app-grid" id="appsGrid">
@@ -45,8 +57,10 @@ import { categoryLabels, statusMeta } from '../data/site';
     function applyFilters() {
       let visible = 0;
       cards.forEach((card) => {
-        const statusMatch = state.status === 'all' || card.getAttribute('data-status') === state.status;
-        const categoryMatch = state.category === 'all' || card.getAttribute('data-category') === state.category;
+        const statusMatch =
+          state.status === 'all' || card.getAttribute('data-status') === state.status;
+        const categoryMatch =
+          state.category === 'all' || card.getAttribute('data-category') === state.category;
         const shouldShow = statusMatch && categoryMatch;
         card.toggleAttribute('hidden', !shouldShow);
         if (shouldShow) visible += 1;

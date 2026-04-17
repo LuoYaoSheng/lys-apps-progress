@@ -1,7 +1,6 @@
 export const siteMeta = {
   title: '50 Apps Progress',
-  description:
-    '一年 50 个应用的公开进度站，记录从想法、设计、开发到发布的持续交付过程。',
+  description: '一年 50 个应用的公开进度站，记录从想法、设计、开发到发布的持续交付过程。',
   siteUrl: 'https://apps.open.i2kai.com',
   siteName: '50 Apps Progress',
   author: 'LuoYaoSheng',

@@ -252,8 +252,12 @@ export const wishlistSeeds = [
 
 export function getProgressStats() {
   const released = apps.filter((app) => app.status === 'released').length;
-  const active = apps.filter((app) => ['building', 'testing', 'design'].includes(app.status)).length;
-  const averageProgress = Math.round(apps.reduce((sum, app) => sum + app.progress, 0) / apps.length);
+  const active = apps.filter((app) =>
+    ['building', 'testing', 'design'].includes(app.status),
+  ).length;
+  const averageProgress = Math.round(
+    apps.reduce((sum, app) => sum + app.progress, 0) / apps.length,
+  );
 
   return {
     released,

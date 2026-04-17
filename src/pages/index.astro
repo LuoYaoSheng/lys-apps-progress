@@ -54,7 +54,9 @@ const completion = Math.round((stats.released / target.total) * 100);
           <div>
             <p class="section-kicker">NOW SHIPPING</p>
             <h2>正在推进的第一批应用</h2>
-            <p>优先同步能公开讲清楚价值的应用。每个项目只展示公开状态，不暴露内部代码和私有排期。</p>
+            <p>
+              优先同步能公开讲清楚价值的应用。每个项目只展示公开状态，不暴露内部代码和私有排期。
+            </p>
           </div>
           <a class="button-dark" href="/apps">全部应用</a>
         </div>
@@ -97,15 +99,17 @@ const completion = Math.round((stats.released / target.total) * 100);
           <a class="button-secondary" href="/timeline">完整时间线</a>
         </div>
         <div class="timeline">
-          {latestMilestones.map((item) => (
-            <article class="timeline-item">
-              <div class="timeline-date">{item.date}</div>
-              <div class="timeline-copy">
-                <h2>{item.title}</h2>
-                <p>{item.summary}</p>
-              </div>
-            </article>
-          ))}
+          {
+            latestMilestones.map((item) => (
+              <article class="timeline-item">
+                <div class="timeline-date">{item.date}</div>
+                <div class="timeline-copy">
+                  <h2>{item.title}</h2>
+                  <p>{item.summary}</p>
+                </div>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>

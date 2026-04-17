@@ -14,15 +14,17 @@ import { milestones } from '../data/apps';
     </section>
 
     <section class="container timeline">
-      {milestones.map((item) => (
-        <article class="timeline-item">
-          <div class="timeline-date">{item.date}</div>
-          <div class="timeline-copy">
-            <h2>{item.title}</h2>
-            <p>{item.summary}</p>
-          </div>
-        </article>
-      ))}
+      {
+        milestones.map((item) => (
+          <article class="timeline-item">
+            <div class="timeline-date">{item.date}</div>
+            <div class="timeline-copy">
+              <h2>{item.title}</h2>
+              <p>{item.summary}</p>
+            </div>
+          </article>
+        ))
+      }
     </section>
   </main>
 </BaseLayout>

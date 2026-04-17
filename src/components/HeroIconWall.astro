@@ -5,12 +5,9 @@ const iconApps = apps.filter((app) => app.icon).slice(0, 14);
 ---
 
 <div class="hero-icon-wall" aria-hidden="true">
-  {iconApps.map((app, index) => (
-    <img
-      src={app.icon}
-      alt=""
-      style={`--i: ${index};`}
-      loading={index < 6 ? 'eager' : 'lazy'}
-    />
-  ))}
+  {
+    iconApps.map((app, index) => (
+      <img src={app.icon} alt="" style={`--i: ${index};`} loading={index < 6 ? 'eager' : 'lazy'} />
+    ))
+  }
 </div>

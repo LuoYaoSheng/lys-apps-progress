@@ -3,16 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=18.17.0"
+  },
   "scripts": {
     "dev": "astro dev",
+    "check": "astro check",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "verify": "npm run format:check && npm run check && npm run build"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
     "astro": "^5.8.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.8.3"
   }
 }
