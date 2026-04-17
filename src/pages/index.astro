@@ -2,13 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppCard from '../components/AppCard.astro';
 import HeroIconWall from '../components/HeroIconWall.astro';
-import { apps, getProgressStats, milestones } from '../data/apps';
+import { apps, getProgressStats, milestones, sortAppsByStatus } from '../data/apps';
 import { target } from '../data/site';
 
 const stats = getProgressStats();
-const activeApps = apps
-  .filter((app) => ['released', 'testing', 'building'].includes(app.status))
-  .slice(0, 6);
+const activeApps = sortAppsByStatus(
+  apps.filter((app) => ['released', 'testing', 'building'].includes(app.status)),
+).slice(0, 6);
 const latestMilestones = milestones.slice(0, 3);
 const completion = Math.round((stats.released / target.total) * 100);
 ---

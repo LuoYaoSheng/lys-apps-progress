@@ -405,9 +405,26 @@ img {
   width: 54px;
   height: 54px;
   border-radius: var(--radius);
-  object-fit: cover;
   border: 1px solid var(--line);
   background: var(--panel-strong);
+}
+
+.app-icon-wrap,
+.detail-icon-wrap {
+  position: relative;
+  display: inline-grid;
+  width: 54px;
+  height: 54px;
+}
+
+.app-icon-wrap .app-icon {
+  grid-area: 1 / 1;
+}
+
+.app-icon-image {
+  position: relative;
+  z-index: 1;
+  object-fit: cover;
 }
 
 .app-icon-fallback {
@@ -554,6 +571,21 @@ img {
   border-radius: var(--radius);
   background: var(--panel);
   object-fit: cover;
+}
+
+.detail-icon-wrap {
+  width: 96px;
+  height: 96px;
+}
+
+.detail-icon-wrap img,
+.detail-icon-wrap .detail-icon-fallback {
+  grid-area: 1 / 1;
+}
+
+.detail-icon-wrap img {
+  position: relative;
+  z-index: 1;
 }
 
 .detail-icon-fallback {

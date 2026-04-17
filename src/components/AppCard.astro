@@ -8,6 +8,7 @@ interface Props {
 
 const { app } = Astro.props;
 const status = statusMeta[app.status];
+const fallback = app.name.slice(0, 1);
 ---
 
 <article class="app-card" data-status={app.status} data-category={app.category}>
@@ -15,9 +16,12 @@ const status = statusMeta[app.status];
     <div class="app-card-top">
       {
         app.icon ? (
-          <img class="app-icon" src={app.icon} alt="" loading="lazy" />
+          <span class="app-icon-wrap">
+            <span class="app-icon app-icon-fallback">{fallback}</span>
+            <img class="app-icon app-icon-image" src={app.icon} alt="" loading="lazy" />
+          </span>
         ) : (
-          <span class="app-icon app-icon-fallback">{app.name.slice(0, 1)}</span>
+          <span class="app-icon app-icon-fallback">{fallback}</span>
         )
       }
       <span class={`status-badge tone-${status.tone}`}>{status.label}</span>

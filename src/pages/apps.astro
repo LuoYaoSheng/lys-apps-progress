@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppCard from '../components/AppCard.astro';
-import { apps } from '../data/apps';
+import { apps, sortAppsByStatus } from '../data/apps';
 import { categoryLabels, statusMeta } from '../data/site';
+
+const orderedApps = sortAppsByStatus(apps);
 ---
 
 <BaseLayout title="应用进度" description="50 Apps 计划的公开应用列表、状态和阶段进度。">
@@ -42,7 +44,7 @@ import { categoryLabels, statusMeta } from '../data/site';
       </div>
 
       <div class="app-grid" id="appsGrid">
-        {apps.map((app) => <AppCard app={app} />)}
+        {orderedApps.map((app) => <AppCard app={app} />)}
       </div>
       <p class="notice" id="emptyNotice" hidden>当前筛选下还没有应用。</p>
     </section>

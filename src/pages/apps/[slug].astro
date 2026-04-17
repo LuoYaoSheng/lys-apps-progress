@@ -12,6 +12,7 @@ export function getStaticPaths() {
 
 const { app } = Astro.props;
 const status = statusMeta[app.status];
+const fallback = app.name.slice(0, 1);
 ---
 
 <BaseLayout title={app.name} description={app.summary}>
@@ -20,9 +21,12 @@ const status = statusMeta[app.status];
       <div class="container detail-heading">
         {
           app.icon ? (
-            <img src={app.icon} alt="" />
+            <span class="detail-icon-wrap">
+              <span class="detail-icon-fallback">{fallback}</span>
+              <img src={app.icon} alt="" />
+            </span>
           ) : (
-            <div class="detail-icon-fallback">{app.name.slice(0, 1)}</div>
+            <div class="detail-icon-fallback">{fallback}</div>
           )
         }
         <div>

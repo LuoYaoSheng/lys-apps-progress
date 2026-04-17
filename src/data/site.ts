@@ -38,9 +38,11 @@ export const statusMeta = {
 
 export const categoryLabels = {
   image: '图像处理',
+  video: '视频处理',
+  tools: '工具类',
   productivity: '效率工具',
-  life: '生活记录',
-  education: '教育启蒙',
-  utility: '实用工具',
-  social: '互动娱乐',
+  lifestyle: '娱乐与生活',
+  security: '系统与安全',
+  browser: '浏览与通讯',
+  ar: 'AR与特效',
 } as const;
