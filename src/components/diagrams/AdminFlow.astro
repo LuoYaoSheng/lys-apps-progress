@@ -1,0 +1,97 @@
+---
+import ArchitectureDiagrams from '../ArchitectureDiagrams.astro';
+---
+
+<ArchitectureDiagrams
+  id="diagram-admin"
+  title="图 4 · Admin 控制面与配置生效"
+  caption="页面保存成功 ≠ 运行态已生效。配置经 config-rpc 写入 ETCD，由 owner service 消费后才真正生效。"
+>
+  <svg viewBox="0 0 1000 280" role="img" aria-label="Admin 控制面配置生效架构图">
+    <defs>
+      <marker id="arr4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="#111"></path>
+      </marker>
+    </defs>
+    {
+      [
+        { x: 20, label: '运营/管理员', sub: '' },
+        { x: 150, label: 'admin-web', sub: '管理界面' },
+        { x: 290, label: 'APISIX', sub: '' },
+        { x: 410, label: 'admin-api', sub: 'REST 门面' },
+        { x: 550, label: 'config-rpc', sub: '配置事实源' },
+        { x: 700, label: 'PostgreSQL', sub: 'sys_config' },
+        { x: 850, label: 'ETCD', sub: '运行态' },
+      ].map((n, i, arr) => (
+        <>
+          <rect
+            x={n.x}
+            y="60"
+            width="110"
+            height="50"
+            rx="8"
+            fill="#fffdf8"
+            stroke="#111"
+            stroke-width="2"
+          />
+          <text
+            x={n.x + 55}
+            y="82"
+            text-anchor="middle"
+            font-size="12"
+            font-weight="700"
+            fill="#111"
+          >
+            {n.label}
+          </text>
+          {n.sub && (
+            <text x={n.x + 55} y="98" text-anchor="middle" font-size="10" fill="#5d625f">
+              {n.sub}
+            </text>
+          )}
+          {i < arr.length - 1 && (
+            <line
+              x1={n.x + 110}
+              y1="85"
+              x2={arr[i + 1].x}
+              y2="85"
+              stroke="#111"
+              stroke-width="2"
+              marker-end="url(#arr4)"
+            />
+          )}
+        </>
+      ))
+    }
+    <line x1="880" y1="110" x2="880" y2="180" stroke="#111" stroke-width="2" marker-end="url(#arr4)"
+    ></line>
+    <rect
+      x="720"
+      y="185"
+      width="320"
+      height="72"
+      rx="8"
+      fill="#dff4e6"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="880" y="212" text-anchor="middle" font-size="13" font-weight="700" fill="#111"
+      >运行时服务消费配置</text
+    >
+    <text x="880" y="234" text-anchor="middle" font-size="11" fill="#5d625f">
+      gateway · payment · storage · auth · voice …
+    </text>
+
+    <rect
+      x="20"
+      y="185"
+      width="280"
+      height="72"
+      rx="8"
+      fill="#fff0c2"
+      stroke="#111"
+      stroke-width="1.5"></rect>
+    <text x="40" y="212" font-size="12" font-weight="700" fill="#111">Admin 五层</text>
+    <text x="40" y="232" font-size="10" fill="#5d625f">工作台 → 应用中心 → 能力中心</text>
+    <text x="40" y="248" font-size="10" fill="#5d625f">→ 运营配置 → 通用设置</text>
+  </svg>
+</ArchitectureDiagrams>

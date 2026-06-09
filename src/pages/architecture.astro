@@ -1,27 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import AppCard from '../components/AppCard.astro';
+import AdminFlow from '../components/diagrams/AdminFlow.astro';
+import AppLifecycle from '../components/diagrams/AppLifecycle.astro';
+import EcosystemOverview from '../components/diagrams/EcosystemOverview.astro';
+import ProductionTopo from '../components/diagrams/ProductionTopo.astro';
+import RequestFlow from '../components/diagrams/RequestFlow.astro';
+import RouteSplit from '../components/diagrams/RouteSplit.astro';
 import {
-  adminLayers,
   architectureMeta,
-  layers,
   platformModules,
-  referenceApps,
-  requestFlow,
-  routes,
   sharedCapabilities,
   statusLabels,
 } from '../data/architecture';
-import { appFamilies } from '../data/about';
-import { apps, getProgressStats, sortAppsByStatus } from '../data/apps';
+import { apps, getProgressStats } from '../data/apps';
 import { target } from '../data/site';
 
 const stats = getProgressStats();
 const completion = Math.round((stats.released / target.total) * 100);
-const releasedApps = sortAppsByStatus(apps.filter((a) => a.status === 'released')).slice(0, 8);
-const activeApps = sortAppsByStatus(
-  apps.filter((a) => ['building', 'testing', 'design'].includes(a.status)),
-).slice(0, 4);
 ---
 
 <BaseLayout
@@ -70,61 +65,34 @@ const activeApps = sortAppsByStatus(
       </div>
     </section>
 
-    <!-- 三层结构 -->
+    <!-- 架构图（重点） -->
+    <section class="container arch-diagrams-section">
+      <div class="section-header" style="margin-bottom: 20px">
+        <div>
+          <p class="section-kicker">ARCHITECTURE MAPS</p>
+          <h2>架构图</h2>
+          <p>与 HUB 主仓 <code>docs/项目/01_系统架构.md</code> 对齐，出门协作可直接看图说话。</p>
+        </div>
+      </div>
+      <nav class="diagram-toc" aria-label="架构图目录">
+        <a href="#diagram-ecosystem">① 生态总览</a>
+        <a href="#diagram-request">② 端到端</a>
+        <a href="#diagram-routes">③ 路由分流</a>
+        <a href="#diagram-admin">④ Admin</a>
+        <a href="#diagram-lifecycle">⑤ 启动支付</a>
+        <a href="#diagram-production">⑥ 生产拓扑</a>
+      </nav>
+      <div class="arch-diagrams-grid">
+        <EcosystemOverview />
+        <RequestFlow />
+        <RouteSplit />
+        <AdminFlow />
+        <AppLifecycle />
+        <ProductionTopo />
+      </div>
+    </section>
+
     <section class="container about-stack">
-      <article class="detail-panel">
-        <p class="section-kicker">LAYERS</p>
-        <h2>三层结构</h2>
-        <div class="layer-stack">
-          {
-            layers.map((layer, i) => (
-              <div class="layer-row">
-                <span class="layer-index">{i + 1}</span>
-                <div>
-                  <h3>{layer.name}</h3>
-                  <p>{layer.role}</p>
-                  <code class="layer-code">{layer.examples}</code>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      </article>
-
-      <!-- 请求链路 -->
-      <article class="detail-panel">
-        <p class="section-kicker">REQUEST FLOW</p>
-        <h2>请求怎么走</h2>
-        <p>对任何 App，固定认知：<strong>所有正式请求先进入 APISIX</strong>，再按路径分流。</p>
-        <div class="flow-chain">
-          {
-            requestFlow.map((node) => (
-              <div class="flow-node">
-                <strong>{node.step}</strong>
-                <span>{node.desc}</span>
-              </div>
-            ))
-          }
-        </div>
-        <table class="arch-table">
-          <thead>
-            <tr><th>路径</th><th>用途</th></tr>
-          </thead>
-          <tbody>
-            {
-              routes.map((r) => (
-                <tr>
-                  <td>
-                    <code>{r.path}</code>
-                  </td>
-                  <td>{r.desc}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </article>
-
       <!-- 平台模块进度 -->
       <article class="detail-panel">
         <p class="section-kicker">PLATFORM</p>
@@ -168,83 +136,14 @@ const activeApps = sortAppsByStatus(
         </div>
       </article>
 
-      <!-- Admin -->
       <article class="detail-panel">
-        <p class="section-kicker">ADMIN</p>
-        <h2>管理后台分层</h2>
-        <ul class="tag-list">
-          {adminLayers.map((l) => <li>{l}</li>)}
-        </ul>
-      </article>
-
-      <!-- 样板 App -->
-      <article class="detail-panel">
-        <p class="section-kicker">REFERENCE APPS</p>
-        <h2>四 App 样板（每个干什么）</h2>
-        <p>平台参照的代表性应用，覆盖 UniApp / Flutter 与不同能力组合。</p>
-        <div class="ref-app-grid">
-          {
-            referenceApps.map((app) => (
-              <div class="ref-app-card">
-                <h3>{app.name}</h3>
-                <code>{app.appKey}</code>
-                <p>{app.purpose}</p>
-                <span class="ref-tech">{app.tech}</span>
-                {app.slug ? (
-                  <a
-                    class="button-secondary"
-                    href={`/apps/${app.slug}`}
-                    style="margin-top:12px;display:inline-block"
-                  >
-                    看公开进度 →
-                  </a>
-                ) : (
-                  <span class="ref-note">业务样板 · 进度见交付看板同类条目</span>
-                )}
-              </div>
-            ))
-          }
-        </div>
-      </article>
-
-      <!-- 产品线 -->
-      <article class="detail-panel">
-        <p class="section-kicker">PRODUCT LINES</p>
-        <h2>交付产品线</h2>
-        <div class="about-cards">
-          {
-            appFamilies.map((f) => (
-              <div class="about-card">
-                <h3>{f.title}</h3>
-                <p>{f.desc}</p>
-                <p class="about-examples">{f.examples}</p>
-              </div>
-            ))
-          }
-        </div>
-      </article>
-
-      <!-- 已发布 + 进行中 -->
-      <article class="detail-panel">
-        <p class="section-kicker">DELIVERY BOARD</p>
-        <h2>已发布作品</h2>
-        <div class="app-grid" style="margin-top:16px">
-          {releasedApps.map((app) => <AppCard app={app} />)}
-        </div>
-        {
-          activeApps.length > 0 && (
-            <>
-              <h2 style="margin-top:32px">正在推进</h2>
-              <div class="app-grid" style="margin-top:16px">
-                {activeApps.map((app) => (
-                  <AppCard app={app} />
-                ))}
-              </div>
-            </>
-          )
-        }
-        <div class="section-actions" style="margin-top:24px">
-          <a class="button-primary" href="/apps">查看完整应用目录</a>
+        <p class="section-kicker">APPS</p>
+        <h2>应用与进度</h2>
+        <p>
+          每个 App 干什么、项目后缀与排期，见应用目录（{apps.length} 条 50 Builds 跟踪 + 全量 HUB 清单）。
+        </p>
+        <div class="section-actions" style="margin-top:16px">
+          <a class="button-primary" href="/apps">打开应用目录</a>
         </div>
       </article>
     </section>

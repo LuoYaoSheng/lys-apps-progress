@@ -841,6 +841,75 @@ img {
   line-height: 1.5;
 }
 
+.arch-diagrams-section {
+  padding-bottom: 24px;
+}
+
+.diagram-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.diagram-toc a {
+  padding: 8px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--panel);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.diagram-toc a:hover {
+  background: var(--green-soft);
+}
+
+.arch-diagrams-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.arch-diagram-figure {
+  margin: 0;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: 6px 6px 0 var(--ink);
+  overflow: hidden;
+}
+
+.arch-diagram-figure figcaption {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-strong);
+}
+
+.arch-diagram-figure h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.arch-diagram-figure p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.arch-diagram-canvas {
+  padding: 12px;
+  overflow-x: auto;
+  background: #fffdf8;
+}
+
+.arch-diagram-canvas svg {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+}
+
 .arch-snapshot {
   padding-bottom: 8px;
 }

@@ -1,0 +1,76 @@
+---
+import ArchitectureDiagrams from '../ArchitectureDiagrams.astro';
+---
+
+<ArchitectureDiagrams
+  id="diagram-ecosystem"
+  title="图 1 · 生态三层总览"
+  caption="治理主仓管标准与门禁，App 子仓做业务，平台服务提供共享能力。100+ App 复用同一套底座。"
+>
+  <svg viewBox="0 0 920 340" role="img" aria-label="HUB 生态三层总览架构图">
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="#111"></path>
+      </marker>
+    </defs>
+    <rect
+      x="40"
+      y="24"
+      width="840"
+      height="72"
+      rx="10"
+      fill="#dff4e6"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="60" y="52" font-size="18" font-weight="700" fill="#111">治理主仓</text>
+    <text x="60" y="76" font-size="13" fill="#5d625f"
+      >docs/ · scripts/management/ · packages/hub_core · 模板与门禁</text
+    >
+
+    <rect
+      x="40"
+      y="120"
+      width="840"
+      height="88"
+      rx="10"
+      fill="#dcecff"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="60" y="148" font-size="18" font-weight="700" fill="#111">App 子仓（100+）</text>
+    <text x="60" y="172" font-size="13" fill="#5d625f"
+      >Flutter / UniApp 客户端 + go-zero public-api + 业务 RPC</text
+    >
+    <text x="60" y="192" font-size="12" fill="#5d625f"
+      >样板：宝宝点滴 · 萌宠圈 · 译言宝 · 夜莺变声器</text
+    >
+
+    <rect
+      x="40"
+      y="232"
+      width="840"
+      height="88"
+      rx="10"
+      fill="#fff0c2"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="60" y="260" font-size="18" font-weight="700" fill="#111"
+      >平台共享服务 hub-platform-core</text
+    >
+    <text x="60" y="284" font-size="13" fill="#5d625f"
+      >APISIX 入口 · gateway · auth · payment · vip · voice · translation · storage</text
+    >
+
+    <line x1="460" y1="96" x2="460" y2="120" stroke="#111" stroke-width="2" marker-end="url(#arrow)"
+    ></line>
+    <line
+      x1="460"
+      y1="208"
+      x2="460"
+      y2="232"
+      stroke="#111"
+      stroke-width="2"
+      marker-end="url(#arrow)"></line>
+    <text x="472" y="112" font-size="11" fill="#5d625f">依赖</text>
+    <text x="472" y="224" font-size="11" fill="#5d625f">调用</text>
+  </svg>
+</ArchitectureDiagrams>

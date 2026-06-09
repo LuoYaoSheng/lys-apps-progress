@@ -1,0 +1,159 @@
+---
+import ArchitectureDiagrams from '../ArchitectureDiagrams.astro';
+---
+
+<ArchitectureDiagrams
+  id="diagram-lifecycle"
+  title="图 5 · App 启动与支付主流程"
+  caption="从启动到支付的典型路径：登录 → 拉配置 → 业务请求 / 文件上传 / 支付履约。"
+>
+  <svg viewBox="0 0 960 400" role="img" aria-label="App 启动与支付主流程架构图">
+    <defs>
+      <marker id="arr5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="#111"></path>
+      </marker>
+    </defs>
+    <!-- 启动链 -->
+    {
+      [
+        { x: 30, t: 'App 启动' },
+        { x: 170, t: '初始化 appId' },
+        { x: 330, t: 'device-login' },
+        { x: 490, t: '读取 app-config' },
+        { x: 660, t: '进入业务页' },
+      ].map((n, i, arr) => (
+        <>
+          <rect
+            x={n.x}
+            y="30"
+            width="120"
+            height="40"
+            rx="8"
+            fill="#dcecff"
+            stroke="#111"
+            stroke-width="2"
+          />
+          <text
+            x={n.x + 60}
+            y="55"
+            text-anchor="middle"
+            font-size="11"
+            font-weight="600"
+            fill="#111"
+          >
+            {n.t}
+          </text>
+          {i < arr.length - 1 && (
+            <line
+              x1={n.x + 120}
+              y1="50"
+              x2={arr[i + 1].x}
+              y2="50"
+              stroke="#111"
+              stroke-width="2"
+              marker-end="url(#arr5)"
+            />
+          )}
+        </>
+      ))
+    }
+
+    <!-- 分支 -->
+    <line x1="720" y1="70" x2="720" y2="110" stroke="#111" stroke-width="2"></line>
+    <polygon points="720,110 700,140 740,140" fill="#111"></polygon>
+
+    <rect
+      x="80"
+      y="170"
+      width="200"
+      height="80"
+      rx="8"
+      fill="#dff4e6"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="180" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#111"
+      >普通业务</text
+    >
+    <text x="180" y="218" text-anchor="middle" font-size="10" fill="#5d625f">
+      {'/app/{appId}/v1/*'}
+    </text>
+    <text x="180" y="236" text-anchor="middle" font-size="10" fill="#5d625f"
+      >→ public-api → 业务 RPC</text
+    >
+
+    <rect
+      x="380"
+      y="170"
+      width="200"
+      height="80"
+      rx="8"
+      fill="#ffe1dc"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="480" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#111"
+      >文件上传</text
+    >
+    <text x="480" y="218" text-anchor="middle" font-size="10" fill="#5d625f">/v1/storage/*</text>
+    <text x="480" y="236" text-anchor="middle" font-size="10" fill="#5d625f"
+      >→ storage-api → file-rpc</text
+    >
+
+    <rect
+      x="680"
+      y="170"
+      width="220"
+      height="80"
+      rx="8"
+      fill="#fff0c2"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="790" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#111"
+      >发起支付</text
+    >
+    <text x="790" y="218" text-anchor="middle" font-size="10" fill="#5d625f">payment-rpc 验单</text>
+    <text x="790" y="236" text-anchor="middle" font-size="10" fill="#5d625f"
+      >→ vip-rpc 履约 + 推广归因</text
+    >
+
+    <line
+      x1="720"
+      y1="140"
+      x2="180"
+      y2="170"
+      stroke="#111"
+      stroke-width="1.5"
+      marker-end="url(#arr5)"></line>
+    <line
+      x1="720"
+      y1="140"
+      x2="480"
+      y2="170"
+      stroke="#111"
+      stroke-width="1.5"
+      marker-end="url(#arr5)"></line>
+    <line
+      x1="720"
+      y1="140"
+      x2="790"
+      y2="170"
+      stroke="#111"
+      stroke-width="1.5"
+      marker-end="url(#arr5)"></line>
+
+    <!-- 支付子流程 -->
+    <rect
+      x="600"
+      y="290"
+      width="340"
+      height="90"
+      rx="8"
+      fill="#f7f3ea"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="620" y="318" font-size="12" font-weight="700" fill="#111">支付回调链</text>
+    <text x="620" y="340" font-size="11" fill="#5d625f">支付回调 → payment-rpc 更新订单</text>
+    <text x="620" y="358" font-size="11" fill="#5d625f"
+      >→ vip-rpc 发放权益 · promotion-rpc 记录转化</text
+    >
+  </svg>
+</ArchitectureDiagrams>

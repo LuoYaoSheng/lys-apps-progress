@@ -1,0 +1,147 @@
+---
+import ArchitectureDiagrams from '../ArchitectureDiagrams.astro';
+---
+
+<ArchitectureDiagrams
+  id="diagram-production"
+  title="图 6 · 生产部署拓扑"
+  caption="公网经 Cloudflare 到香港业务机 APISIX。平台机负责 CI/CD，文件域 files.i2kai.com 可独立落点。"
+>
+  <svg viewBox="0 0 1000 360" role="img" aria-label="生产部署拓扑架构图">
+    <defs>
+      <marker id="arr6" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="#111"></path>
+      </marker>
+    </defs>
+    <!-- 用户到服务 -->
+    <rect x="30" y="40" width="100" height="48" rx="8" fill="#fffdf8" stroke="#111" stroke-width="2"
+    ></rect>
+    <text x="80" y="68" text-anchor="middle" font-size="12" font-weight="700">用户</text>
+
+    <line x1="130" y1="64" x2="170" y2="64" stroke="#111" stroke-width="2" marker-end="url(#arr6)"
+    ></line>
+
+    <rect
+      x="170"
+      y="40"
+      width="120"
+      height="48"
+      rx="8"
+      fill="#dcecff"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="230" y="62" text-anchor="middle" font-size="12" font-weight="700">Cloudflare</text>
+    <text x="230" y="78" text-anchor="middle" font-size="9" fill="#5d625f">DNS / TLS</text>
+
+    <line x1="290" y1="64" x2="330" y2="64" stroke="#111" stroke-width="2" marker-end="url(#arr6)"
+    ></line>
+
+    <rect
+      x="330"
+      y="28"
+      width="200"
+      height="72"
+      rx="10"
+      fill="#1f8f5f"
+      stroke="#111"
+      stroke-width="2.5"></rect>
+    <text x="430" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#fff"
+      >香港业务机 APISIX</text
+    >
+    <text x="430" y="76" text-anchor="middle" font-size="10" fill="#dff4e6"
+      >api.i2kai.com · admin.i2kai.com</text
+    >
+
+    <line x1="530" y1="64" x2="580" y2="64" stroke="#111" stroke-width="2" marker-end="url(#arr6)"
+    ></line>
+
+    <rect
+      x="580"
+      y="30"
+      width="380"
+      height="100"
+      rx="10"
+      fill="#fff0c2"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="770" y="58" text-anchor="middle" font-size="13" font-weight="700">运行时服务群</text>
+    <text x="770" y="78" text-anchor="middle" font-size="10" fill="#5d625f"
+      >gateway · public-api · auth · payment · vip · voice …</text
+    >
+    <text x="770" y="96" text-anchor="middle" font-size="10" fill="#5d625f"
+      >PostgreSQL · Redis · ETCD（香港侧）</text
+    >
+    <text x="770" y="114" text-anchor="middle" font-size="10" fill="#5d625f"
+      >storage-api → files.i2kai.com（可独立）</text
+    >
+
+    <!-- 平台机 -->
+    <rect
+      x="30"
+      y="180"
+      width="200"
+      height="80"
+      rx="8"
+      fill="#e7e3db"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="130" y="208" text-anchor="middle" font-size="12" font-weight="700">平台机</text>
+    <text x="130" y="228" text-anchor="middle" font-size="10" fill="#5d625f"
+      >Gitea · Actions · Registry</text
+    >
+    <text x="130" y="246" text-anchor="middle" font-size="10" fill="#5d625f">CI/CD 构建推送</text>
+
+    <line
+      x1="230"
+      y1="220"
+      x2="330"
+      y2="220"
+      stroke="#111"
+      stroke-width="2"
+      stroke-dasharray="6 4"
+      marker-end="url(#arr6)"></line>
+    <text x="280" y="212" text-anchor="middle" font-size="10" fill="#5d625f">部署</text>
+
+    <rect
+      x="330"
+      y="180"
+      width="200"
+      height="80"
+      rx="8"
+      fill="#dff4e6"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="430" y="212" text-anchor="middle" font-size="12" font-weight="700">香港业务机</text>
+    <text x="430" y="232" text-anchor="middle" font-size="10" fill="#5d625f">唯一生产主运行面</text>
+    <text x="430" y="250" text-anchor="middle" font-size="10" fill="#5d625f">118.193.47.55</text>
+
+    <!-- 开源站 -->
+    <rect
+      x="600"
+      y="180"
+      width="200"
+      height="80"
+      rx="8"
+      fill="#fffdf8"
+      stroke="#111"
+      stroke-width="2"></rect>
+    <text x="700" y="208" text-anchor="middle" font-size="12" font-weight="700">GitHub Pages</text>
+    <text x="700" y="228" text-anchor="middle" font-size="10" fill="#5d625f"
+      >apps.open.i2kai.com</text
+    >
+    <text x="700" y="246" text-anchor="middle" font-size="10" fill="#5d625f">本进度/架构站</text>
+
+    <rect
+      x="40"
+      y="300"
+      width="920"
+      height="48"
+      rx="8"
+      fill="#f7f3ea"
+      stroke="#111"
+      stroke-width="1.5"></rect>
+    <text x="60" y="328" font-size="11" fill="#5d625f">
+      公网统一入口 APISIX · 主写数据收敛香港侧 · 平台机与运行面分离 · 旧国内机已退出主业务
+    </text>
+  </svg>
+</ArchitectureDiagrams>
