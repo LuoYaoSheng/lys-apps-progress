@@ -1,99 +1,242 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import AppCard from '../components/AppCard.astro';
-import { apps, sortAppsByStatus } from '../data/apps';
-import { categoryLabels, deliveryLabels, statusMeta } from '../data/site';
+import { getCatalogStats, catalog } from '../data/hub-catalog';
+import { deliveryLabels, statusMeta } from '../data/site';
 
-const orderedApps = sortAppsByStatus(apps);
+const { total, released, active, nextUp } = getCatalogStats();
 ---
 
-<BaseLayout title="公开交付进度" description="50 Builds 计划的小程序、APP、开源项目公开进度。">
+<BaseLayout
+  title="应用目录"
+  description="HUB 全部应用一览：图标、名称、简介、项目后缀与交付进度，便于团队排期。"
+>
   <main>
     <section class="page-title">
       <div class="container">
-        <p class="section-kicker">BUILD BOARD</p>
-        <h1>公开交付进度</h1>
-        <p>这里同时同步小程序、APP 和开源项目。状态只代表对外展示阶段，不等同于内部排期。</p>
+        <p class="section-kicker">APP CATALOG · {total} 个应用</p>
+        <h1>应用目录</h1>
+        <p>
+          每个 App 干什么、项目目录后缀、当前进度。默认按「接下来该做哪个」排序。已发布 {released}
+          个，进行中 {active} 个。
+        </p>
       </div>
     </section>
 
-    <section class="container">
-      <div class="filters" aria-label="交付类型筛选">
-        <button class="filter-pill is-active" data-filter-kind="delivery" data-filter-value="all"
-          >全部类型</button
-        >
-        {
-          Object.entries(deliveryLabels).map(([key, label]) => (
-            <button class="filter-pill" data-filter-kind="delivery" data-filter-value={key}>
-              {label}
-            </button>
-          ))
-        }
-      </div>
-      <div class="filters" aria-label="状态筛选">
-        <button class="filter-pill is-active" data-filter-kind="status" data-filter-value="all"
-          >全部状态</button
-        >
-        {
-          Object.entries(statusMeta).map(([key, item]) => (
-            <button class="filter-pill" data-filter-kind="status" data-filter-value={key}>
-              {item.label}
-            </button>
-          ))
-        }
-      </div>
-      <div class="filters" aria-label="分类筛选">
-        <button class="filter-pill is-active" data-filter-kind="category" data-filter-value="all"
-          >全部分类</button
-        >
-        {
-          Object.entries(categoryLabels).map(([key, label]) => (
-            <button class="filter-pill" data-filter-kind="category" data-filter-value={key}>
-              {label}
-            </button>
-          ))
-        }
+    {
+      nextUp.length > 0 && (
+        <section class="container catalog-next">
+          <p class="section-kicker">NEXT UP</p>
+          <h2>建议优先推进</h2>
+          <div class="catalog-next-row">
+            {nextUp.map((app) => {
+              const status = statusMeta[app.status];
+              const fallback = app.name.slice(0, 1);
+              const href = app.hasDetail && app.detailSlug ? `/apps/${app.detailSlug}` : null;
+              const chipContent = (
+                <>
+                  {app.icon ? (
+                    <img src={app.icon} alt="" width="28" height="28" />
+                  ) : (
+                    <span class="catalog-icon-fallback sm">{fallback}</span>
+                  )}
+                  <span>
+                    <strong>{app.name}</strong>
+                    <em>
+                      {status.label} · {app.progress}%
+                    </em>
+                  </span>
+                  <code>{app.projectKey}</code>
+                </>
+              );
+              return href ? (
+                <a href={href} class="catalog-next-chip">
+                  {chipContent}
+                </a>
+              ) : (
+                <div class="catalog-next-chip">{chipContent}</div>
+              );
+            })}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="container catalog-section">
+      <div class="catalog-toolbar">
+        <input
+          type="search"
+          id="catalogSearch"
+          class="catalog-search"
+          placeholder="搜索应用名、简介或项目后缀…"
+          autocomplete="off"
+        />
+        <div class="filters" aria-label="状态筛选">
+          <button class="filter-pill is-active" data-status="all">全部</button>
+          {
+            Object.entries(statusMeta).map(([key, item]) => (
+              <button class="filter-pill" data-status={key}>
+                {item.label}
+              </button>
+            ))
+          }
+        </div>
+        <div class="filters" aria-label="分类筛选">
+          <button class="filter-pill is-active" data-category="all">全部分类</button>
+          {
+            [...new Set(catalog.map((item) => item.category))].map((key) => (
+              <button class="filter-pill" data-category={key}>
+                {catalog.find((item) => item.category === key)?.categoryLabel}
+              </button>
+            ))
+          }
+        </div>
       </div>
 
-      <div class="app-grid" id="appsGrid">
-        {orderedApps.map((app) => <AppCard app={app} />)}
+      <div class="catalog-table-wrap">
+        <table class="catalog-table" id="catalogTable">
+          <thead>
+            <tr>
+              <th class="col-icon"></th>
+              <th>应用名</th>
+              <th>简介</th>
+              <th>项目</th>
+              <th>分类</th>
+              <th>状态</th>
+              <th>进度</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              catalog.map((app) => {
+                const status = statusMeta[app.status];
+                const fallback = app.name.slice(0, 1);
+                const detailHref =
+                  app.hasDetail && app.detailSlug ? `/apps/${app.detailSlug}` : null;
+                return (
+                  <tr
+                    class="catalog-row"
+                    data-status={app.status}
+                    data-category={app.category}
+                    data-search={`${app.name} ${app.description} ${app.projectKey} ${app.categoryLabel} ${deliveryLabels[app.delivery]}`}
+                  >
+                    <td class="col-icon">
+                      {detailHref ? (
+                        <a href={detailHref} class="catalog-icon-link">
+                          {app.icon ? (
+                            <img
+                              src={app.icon}
+                              alt=""
+                              class="catalog-icon"
+                              loading="lazy"
+                              onerror="this.style.display='none';this.nextElementSibling.style.display='inline-grid'"
+                            />
+                          ) : null}
+                          <span
+                            class="catalog-icon-fallback"
+                            style={app.icon ? 'display:none' : undefined}
+                          >
+                            {fallback}
+                          </span>
+                        </a>
+                      ) : (
+                        <span class="catalog-icon-link">
+                          {app.icon ? (
+                            <img src={app.icon} alt="" class="catalog-icon" loading="lazy" />
+                          ) : (
+                            <span class="catalog-icon-fallback">{fallback}</span>
+                          )}
+                        </span>
+                      )}
+                    </td>
+                    <td class="col-name">
+                      {detailHref ? (
+                        <a href={detailHref}>
+                          <strong>{app.name}</strong>
+                          <span>{deliveryLabels[app.delivery]}</span>
+                        </a>
+                      ) : (
+                        <div>
+                          <strong>{app.name}</strong>
+                          <span>{deliveryLabels[app.delivery]}</span>
+                        </div>
+                      )}
+                    </td>
+                    <td class="col-summary">{app.description}</td>
+                    <td class="col-project">
+                      <code title={`apps/${app.projectKey}`}>{app.projectKey}</code>
+                    </td>
+                    <td class="col-type">{app.categoryLabel}</td>
+                    <td class="col-status">
+                      <span class={`status-badge tone-${status.tone}`}>{status.label}</span>
+                    </td>
+                    <td class="col-progress">
+                      <div class="progress-track compact">
+                        <span style={`width: ${app.progress}%`} />
+                      </div>
+                      <span class="progress-pct">{app.progress}%</span>
+                    </td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
       </div>
-      <p class="notice" id="emptyNotice" hidden>当前筛选下还没有交付条目。</p>
+      <p class="notice" id="catalogEmpty" hidden>没有匹配的应用。</p>
+      <p class="catalog-footnote">
+        共 {total} 个应用，数据来自 HUB 应用目录。「项目」为 <code>apps/</code> 目录后缀；{released}
+        个已纳入 50 Builds 进度跟踪，其余默认「想法池」待排期。
+      </p>
     </section>
   </main>
 
   <script>
-    const state = { delivery: 'all', status: 'all', category: 'all' };
-    const buttons = document.querySelectorAll('[data-filter-kind]');
-    const cards = document.querySelectorAll('.app-card');
-    const emptyNotice = document.getElementById('emptyNotice');
+    const search = document.getElementById('catalogSearch');
+    const rows = document.querySelectorAll('.catalog-row');
+    const empty = document.getElementById('catalogEmpty');
+    const statusPills = document.querySelectorAll('[data-status]');
+    const categoryPills = document.querySelectorAll('[data-category]');
+    let statusFilter = 'all';
+    let categoryFilter = 'all';
 
-    function applyFilters() {
+    function applyCatalogFilters() {
+      const q = ((search as HTMLInputElement | null)?.value || '').trim().toLowerCase();
       let visible = 0;
-      cards.forEach((card) => {
-        const deliveryMatch =
-          state.delivery === 'all' || card.getAttribute('data-delivery') === state.delivery;
-        const statusMatch =
-          state.status === 'all' || card.getAttribute('data-status') === state.status;
-        const categoryMatch =
-          state.category === 'all' || card.getAttribute('data-category') === state.category;
-        const shouldShow = deliveryMatch && statusMatch && categoryMatch;
-        card.toggleAttribute('hidden', !shouldShow);
-        if (shouldShow) visible += 1;
+      rows.forEach((row) => {
+        const status = row.getAttribute('data-status') || '';
+        const category = row.getAttribute('data-category') || '';
+        const text = (row.getAttribute('data-search') || '').toLowerCase();
+        const statusOk = statusFilter === 'all' || status === statusFilter;
+        const categoryOk = categoryFilter === 'all' || category === categoryFilter;
+        const searchOk = !q || text.includes(q);
+        const show = statusOk && categoryOk && searchOk;
+        row.toggleAttribute('hidden', !show);
+        if (show) visible += 1;
       });
-      if (emptyNotice) emptyNotice.hidden = visible !== 0;
+      if (empty) empty.hidden = visible !== 0;
     }
 
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const kind = button.getAttribute('data-filter-kind');
-        const value = button.getAttribute('data-filter-value') || 'all';
-        if (!kind) return;
-        state[kind as 'status' | 'category'] = value;
-        document.querySelectorAll(`[data-filter-kind="${kind}"]`).forEach((item) => {
-          item.classList.toggle('is-active', item === button);
+    search?.addEventListener('input', applyCatalogFilters);
+    statusPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        statusFilter = pill.getAttribute('data-status') || 'all';
+        statusPills.forEach((p) => {
+          if (p.hasAttribute('data-status')) {
+            p.classList.toggle('is-active', p === pill);
+          }
         });
-        applyFilters();
+        applyCatalogFilters();
+      });
+    });
+    categoryPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        categoryFilter = pill.getAttribute('data-category') || 'all';
+        categoryPills.forEach((p) => {
+          if (p.hasAttribute('data-category')) {
+            p.classList.toggle('is-active', p === pill);
+          }
+        });
+        applyCatalogFilters();
       });
     });
   </script>

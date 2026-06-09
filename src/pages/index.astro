@@ -24,9 +24,8 @@ const completion = Math.round((stats.released / target.total) * 100);
           小程序、APP、开源项目都算交付。从想法、设计、开发、测试到发布，每个公开作品都留下进度。
         </p>
         <div class="hero-actions">
-          <a class="button-primary" href="/catalog">应用目录</a>
+          <a class="button-primary" href="/apps">应用目录</a>
           <a class="button-secondary" href="/architecture">整体架构</a>
-          <a class="button-secondary" href="/apps">交付看板</a>
           <a class="button-secondary" href="/wishlist">提交想法</a>
         </div>
         <div class="metric-strip" aria-label="年度进度">
@@ -60,7 +59,7 @@ const completion = Math.round((stats.released / target.total) * 100);
               这里同时包含小程序、APP 和开源项目。每个条目只展示公开状态，不暴露内部代码和私有排期。
             </p>
           </div>
-          <a class="button-dark" href="/apps">全部交付</a>
+          <a class="button-dark" href="/apps">全部应用</a>
         </div>
         <div class="app-grid">
           {activeApps.map((app) => <AppCard app={app} />)}
@@ -78,7 +77,7 @@ const completion = Math.round((stats.released / target.total) * 100);
           </p>
           <div class="section-actions">
             <a class="button-primary" href="/architecture">打开整体架构</a>
-            <a class="button-secondary" href="/apps">交付看板</a>
+            <a class="button-secondary" href="/apps">应用目录</a>
           </div>
         </div>
         <div class="story-panel">

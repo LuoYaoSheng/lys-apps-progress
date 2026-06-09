@@ -1,0 +1,825 @@
+{
+  "updated": "2026-04-17",
+  "total": 88,
+  "categories": {
+    "image": {
+      "name": "图像处理类",
+      "count": 14,
+      "apps": [
+        {
+          "id": "ai-paint",
+          "name": "AI绘画",
+          "slug": "aipaint",
+          "domain": "aipaint.anxiqing.cn",
+          "description": "AI文生图、图生图艺术创作"
+        },
+        {
+          "id": "ai-portrait",
+          "name": "AI写真",
+          "slug": "aiportrait",
+          "domain": "aiportrait.anxiqing.cn",
+          "description": "AI人像美化与修复"
+        },
+        {
+          "id": "avatar-art",
+          "name": "头像艺术",
+          "slug": "avatarart",
+          "domain": "avatarart.anxiqing.cn",
+          "description": "艺术头像生成器"
+        },
+        {
+          "id": "image-compress",
+          "name": "SlimPic",
+          "slug": "imagecompress",
+          "domain": "imagecompress.anxiqing.cn",
+          "description": "图片无损压缩"
+        },
+        {
+          "id": "id-enhance",
+          "name": "证件照增强",
+          "slug": "idenhance",
+          "domain": "idenhance.anxiqing.cn",
+          "description": "证件照智能增强"
+        },
+        {
+          "id": "id-photo",
+          "name": "证件照",
+          "slug": "idphoto",
+          "domain": "idphoto.anxiqing.cn",
+          "description": "证件照制作与排版"
+        },
+        {
+          "id": "collage",
+          "name": "拼图",
+          "slug": "collage",
+          "domain": "collage.anxiqing.cn",
+          "description": "图片拼贴与拼接"
+        },
+        {
+          "id": "emoji-maker",
+          "name": "颜究生",
+          "slug": "emojimaker",
+          "domain": "emojimaker.anxiqing.cn",
+          "description": "自定义表情包生成"
+        },
+        {
+          "id": "led-barrage",
+          "name": "LED闪字",
+          "slug": "ledflashtext",
+          "domain": "ledflashtext.anxiqing.cn",
+          "description": "LED滚动字幕"
+        },
+        {
+          "id": "sticker-maker",
+          "name": "贴纸制作",
+          "slug": "stickermaker",
+          "domain": "stickermaker.anxiqing.cn",
+          "description": "聊天贴纸制作"
+        },
+        {
+          "id": "visual-magic",
+          "name": "视觉魔法",
+          "slug": "visualmagic",
+          "domain": "visualmagic.anxiqing.cn",
+          "description": "视觉特效与滤镜"
+        },
+        {
+          "id": "install-b",
+          "name": "快拼工坊",
+          "slug": "snapkitstudio",
+          "domain": "snapkit.anxiqing.cn",
+          "description": "移动应用界面快速拼接工具"
+        },
+        {
+          "id": "longshot",
+          "name": "长截图",
+          "slug": "longshot",
+          "domain": "longshot.anxiqing.cn",
+          "description": "AI驱动的智能长截图工具"
+        },
+        {
+          "id": "watermark-camera",
+          "name": "水印相机",
+          "slug": "watermarkcamera",
+          "domain": "watermarkcamera.anxiqing.cn",
+          "description": "防篡改存证水印相机"
+        }
+      ]
+    },
+    "video": {
+      "name": "视频处理类",
+      "count": 6,
+      "apps": [
+        {
+          "id": "gif-to-video",
+          "name": "GIF转视频",
+          "slug": "giftovideo",
+          "domain": "giftovideo.anxiqing.cn",
+          "description": "GIF动态图转视频"
+        },
+        {
+          "id": "video-x",
+          "name": "Video X",
+          "slug": "videox",
+          "domain": "videox.anxiqing.cn",
+          "description": "视频编辑与处理"
+        },
+        {
+          "id": "video-player",
+          "name": "视频播放器",
+          "slug": "videoplayer",
+          "domain": "videoplayer.anxiqing.cn",
+          "description": "本地视频播放"
+        },
+        {
+          "id": "subtitle-editor",
+          "name": "字幕编辑",
+          "slug": "subtitleeditor",
+          "domain": "subtitleeditor.anxiqing.cn",
+          "description": "视频字幕制作"
+        },
+        {
+          "id": "screen-recorder",
+          "name": "屏幕录制",
+          "slug": "screenrecorder",
+          "domain": "screenrecorder.anxiqing.cn",
+          "description": "屏幕录制工具"
+        },
+        {
+          "id": "linear-anim",
+          "name": "线性动画",
+          "slug": "linearanim",
+          "domain": "linearanim.anxiqing.cn",
+          "description": "线性动画制作"
+        }
+      ]
+    },
+    "tools": {
+      "name": "工具类",
+      "count": 24,
+      "apps": [
+        {
+          "id": "qr-code",
+          "name": "二维码",
+          "slug": "qrcode",
+          "domain": "qrcode.anxiqing.cn",
+          "description": "二维码生成与扫描"
+        },
+        {
+          "id": "calculator",
+          "name": "科学计算器",
+          "slug": "calculator",
+          "domain": "calculator.anxiqing.cn",
+          "description": "科学计算器"
+        },
+        {
+          "id": "calendar-pro",
+          "name": "日历Pro",
+          "slug": "calendarpro",
+          "domain": "calendarpro.anxiqing.cn",
+          "description": "日历与日程管理"
+        },
+        {
+          "id": "stamp-maker",
+          "name": "印章制作",
+          "slug": "stamper",
+          "domain": "stamper.anxiqing.cn",
+          "description": "个性化印章生成"
+        },
+        {
+          "id": "ruler-level",
+          "name": "尺子水平仪",
+          "slug": "rulerlevel",
+          "domain": "rulerlevel.anxiqing.cn",
+          "description": "测量与水平仪"
+        },
+        {
+          "id": "noise-meter",
+          "name": "分贝仪",
+          "slug": "noisemeter",
+          "domain": "noisemeter.anxiqing.cn",
+          "description": "环境噪音测量"
+        },
+        {
+          "id": "system-monitor",
+          "name": "系统监控",
+          "slug": "systemmonitor",
+          "domain": "systemmonitor.anxiqing.cn",
+          "description": "系统性能监控"
+        },
+        {
+          "id": "packet-capture",
+          "name": "抓包工具",
+          "slug": "packetcapture",
+          "domain": "packetcapture.anxiqing.cn",
+          "description": "网络数据包捕获"
+        },
+        {
+          "id": "screenshot-beautify",
+          "name": "截图美化",
+          "slug": "screenshotbeautify",
+          "domain": "screenshotbeautify.anxiqing.cn",
+          "description": "截图美化工具"
+        },
+        {
+          "id": "grid-maker",
+          "name": "格作",
+          "slug": "gridmaker",
+          "domain": "gridmaker.anxiqing.cn",
+          "description": "九宫格图片分割"
+        },
+        {
+          "id": "teleprompter",
+          "name": "提词器",
+          "slug": "teleprompter",
+          "domain": "teleprompter.anxiqing.cn",
+          "description": "提词器工具"
+        },
+        {
+          "id": "dimension-mark",
+          "name": "尺寸标注",
+          "slug": "dimensionmark",
+          "domain": "dimensionmark.anxiqing.cn",
+          "description": "图片尺寸标注工具"
+        },
+        {
+          "id": "beaker",
+          "name": "烧杯实验",
+          "slug": "beaker",
+          "domain": "beaker.anxiqing.cn",
+          "description": "掌上化学实验室"
+        },
+        {
+          "id": "cad-viewer",
+          "name": "CAD查看器",
+          "slug": "cadviewer",
+          "domain": "cadviewer.anxiqing.cn",
+          "description": "轻量级CAD图纸查看"
+        },
+        {
+          "id": "easy-share",
+          "name": "快传",
+          "slug": "easyshare",
+          "domain": "easyshare.anxiqing.cn",
+          "description": "跨平台文件快速传输"
+        },
+        {
+          "id": "phone-transfer",
+          "name": "手机迁移",
+          "slug": "phonetransfer",
+          "domain": "phonetransfer.anxiqing.cn",
+          "description": "零流量手机数据迁移"
+        },
+        {
+          "id": "theme-maker",
+          "name": "Theme Maker",
+          "slug": "thememaker",
+          "domain": "thememaker.anxiqing.cn",
+          "description": "快速生成主题体系"
+        },
+        {
+          "id": "universal-widget",
+          "name": "万能小组件",
+          "slug": "universalwidget",
+          "domain": "universalwidget.anxiqing.cn",
+          "description": "全能桌面小组件"
+        },
+        {
+          "id": "alarm-clock",
+          "name": "闹钟",
+          "slug": "alarmclock",
+          "domain": "alarmclock.anxiqing.cn",
+          "description": "智能闹钟，支持多种提醒模式"
+        },
+        {
+          "id": "doc-scanner",
+          "name": "文档扫描",
+          "slug": "docscanner",
+          "domain": "docscanner.anxiqing.cn",
+          "description": "高清文档扫描与OCR识别"
+        },
+        {
+          "id": "file-manager",
+          "name": "文件管理",
+          "slug": "filemanager",
+          "domain": "filemanager.anxiqing.cn",
+          "description": "本地文件管理与传输工具"
+        },
+        {
+          "id": "flashlight",
+          "name": "手电筒",
+          "slug": "flashlight",
+          "domain": "flashlight.anxiqing.cn",
+          "description": "超亮手电筒与SOS信号"
+        },
+        {
+          "id": "image-mark",
+          "name": "图片标注",
+          "slug": "imagemark",
+          "domain": "imagemark.anxiqing.cn",
+          "description": "图片标注与标记工具"
+        },
+        {
+          "id": "sensorsphere",
+          "name": "传感器",
+          "slug": "sensorsphere",
+          "domain": "sensorsphere.anxiqing.cn",
+          "description": "手机传感器可视化工具"
+        }
+      ]
+    },
+    "productivity": {
+      "name": "效率类",
+      "count": 18,
+      "apps": [
+        {
+          "id": "notes-app",
+          "name": "笔记",
+          "slug": "notesapp",
+          "domain": "notesapp.anxiqing.cn",
+          "description": "笔记与备忘录"
+        },
+        {
+          "id": "doodle-notes",
+          "name": "涂鸦笔记",
+          "slug": "doodlenotes",
+          "domain": "doodlenotes.anxiqing.cn",
+          "description": "手绘涂鸦笔记"
+        },
+        {
+          "id": "invoice-manager",
+          "name": "发票管理",
+          "slug": "invoicemanager",
+          "domain": "invoicemanager.anxiqing.cn",
+          "description": "发票扫描与管理"
+        },
+        {
+          "id": "mindflow",
+          "name": "心流",
+          "slug": "mindflow",
+          "domain": "mindflow.anxiqing.cn",
+          "description": "思维导图绘制"
+        },
+        {
+          "id": "nine-chapters",
+          "name": "九章",
+          "slug": "ninechapters",
+          "domain": "ninechapters.anxiqing.cn",
+          "description": "数学计算工具"
+        },
+        {
+          "id": "pdf-toolbox",
+          "name": "PDF工具箱",
+          "slug": "pdftoolbox",
+          "domain": "pdftoolbox.anxiqing.cn",
+          "description": "PDF编辑与转换"
+        },
+        {
+          "id": "translator",
+          "name": "译言宝",
+          "slug": "translator",
+          "domain": "translator.anxiqing.cn",
+          "description": "多语言翻译"
+        },
+        {
+          "id": "anniversary",
+          "name": "纪念日",
+          "slug": "anniversary",
+          "domain": "anniversary.anxiqing.cn",
+          "description": "纪念日提醒与记录"
+        },
+        {
+          "id": "codepath",
+          "name": "编程小路",
+          "slug": "codepath",
+          "domain": "codepath.anxiqing.cn",
+          "description": "编程思维启蒙"
+        },
+        {
+          "id": "pinpinxue",
+          "name": "拼拼学",
+          "slug": "pinpinxue",
+          "domain": "pinpinxue.anxiqing.cn",
+          "description": "英语字母单词启蒙"
+        },
+        {
+          "id": "pomodoro-timer",
+          "name": "番茄钟",
+          "slug": "pomodorotimer",
+          "domain": "pomodorotimer.anxiqing.cn",
+          "description": "番茄工作法专注工具"
+        },
+        {
+          "id": "shift-calendar",
+          "name": "倒班日历",
+          "slug": "shiftcalendar",
+          "domain": "shiftcalendar.anxiqing.cn",
+          "description": "轮班工作日程管理"
+        },
+        {
+          "id": "suanshutong",
+          "name": "算术通",
+          "slug": "suanshutong",
+          "domain": "suanshutong.anxiqing.cn",
+          "description": "数字与算术启蒙"
+        },
+        {
+          "id": "tuxing",
+          "name": "图形认知",
+          "slug": "tuxing",
+          "domain": "tuxing.anxiqing.cn",
+          "description": "几何图形认知启蒙"
+        },
+        {
+          "id": "ziqu",
+          "name": "字趣",
+          "slug": "ziqu",
+          "domain": "ziqu.anxiqing.cn",
+          "description": "汉字偏旁部首启蒙"
+        },
+        {
+          "id": "expense-tracker",
+          "name": "记账",
+          "slug": "expensetracker",
+          "domain": "expensetracker.anxiqing.cn",
+          "description": "个人消费记账与统计分析"
+        },
+        {
+          "id": "habit-tracker",
+          "name": "习惯养成",
+          "slug": "habittracker",
+          "domain": "habittracker.anxiqing.cn",
+          "description": "习惯养成与目标追踪工具"
+        },
+        {
+          "id": "voice-mood",
+          "name": "心语日记",
+          "slug": "voicemood",
+          "domain": "voicemood.anxiqing.cn",
+          "description": "语音记录心情日记"
+        }
+      ]
+    },
+    "lifestyle": {
+      "name": "娱乐与生活类",
+      "count": 16,
+      "apps": [
+        {
+          "id": "lianlian-jueding",
+          "name": "恋恋决定",
+          "slug": "lianlianjueding",
+          "domain": "lianlianjueding.anxiqing.cn",
+          "description": "情侣互动决策小程序，通过小游戏解决日常选择困难"
+        },
+        {
+          "id": "baby-record",
+          "name": "育儿记录",
+          "slug": "babyrecord",
+          "domain": "babyrecord.anxiqing.cn",
+          "description": "婴儿成长记录"
+        },
+        {
+          "id": "photo-frame",
+          "name": "相框",
+          "slug": "photoframe",
+          "domain": "photoframe.anxiqing.cn",
+          "description": "照片相框装饰"
+        },
+        {
+          "id": "sleep-sounds",
+          "name": "助眠白噪音",
+          "slug": "sleepsounds",
+          "domain": "sleepsounds.anxiqing.cn",
+          "description": "助眠白噪音"
+        },
+        {
+          "id": "nightingale-voice-changer",
+          "name": "夜莺变声器",
+          "slug": "nightingalevoicechanger",
+          "domain": "nightingalevoicechanger.anxiqing.cn",
+          "description": "AI 语音变声与语音包体验"
+        },
+        {
+          "id": "fitness-tracker",
+          "name": "健身追踪",
+          "slug": "fitnesstracker",
+          "domain": "fitnesstracker.anxiqing.cn",
+          "description": "健身运动记录"
+        },
+        {
+          "id": "moveplay",
+          "name": "家庭体感乐园",
+          "slug": "moveplay",
+          "domain": "moveplay.anxiqing.cn",
+          "description": "基于手机投屏+摄像头体感的客厅级家庭健身与亲子互动应用"
+        },
+        {
+          "id": "color-palette",
+          "name": "色卡精灵",
+          "slug": "colorpalette",
+          "domain": "colorpalette.anxiqing.cn",
+          "description": "颜色调色板工具"
+        },
+        {
+          "id": "compass",
+          "name": "指南针",
+          "slug": "compass",
+          "domain": "compass.anxiqing.cn",
+          "description": "指南针与导航"
+        },
+        {
+          "id": "private-album",
+          "name": "私密相册",
+          "slug": "privatealbum",
+          "domain": "privatealbum.anxiqing.cn",
+          "description": "加密相册管理"
+        },
+        {
+          "id": "animal-translator",
+          "name": "动物翻译",
+          "slug": "animaltranslator",
+          "domain": "animaltranslator.anxiqing.cn",
+          "description": "宠物叫声AI翻译"
+        },
+        {
+          "id": "couple-love",
+          "name": "情侣空间",
+          "slug": "couplelove",
+          "domain": "couplelove.anxiqing.cn",
+          "description": "情侣专属空间"
+        },
+        {
+          "id": "stress-relief",
+          "name": "解压",
+          "slug": "stressrelief",
+          "domain": "stressrelief.anxiqing.cn",
+          "description": "压力缓解放松应用"
+        },
+        {
+          "id": "water-tracker",
+          "name": "每日喝水",
+          "slug": "watertracker",
+          "domain": "watertracker.anxiqing.cn",
+          "description": "饮水习惯养成"
+        },
+        {
+          "id": "baby-growth",
+          "name": "宝宝成长",
+          "slug": "babygrowth",
+          "domain": "babygrowth.anxiqing.cn",
+          "description": "专业的婴幼儿成长记录工具，科学记录宝宝每一个成长瞬间"
+        },
+        {
+          "id": "poker-viewer",
+          "name": "德州扑克辅助",
+          "slug": "pokerviewer",
+          "domain": "pokerviewer.anxiqing.cn",
+          "description": "德州扑克牌局分析与辅助工具"
+        }
+      ]
+    },
+    "security": {
+      "name": "系统与安全类",
+      "count": 5,
+      "apps": [
+        {
+          "id": "app-lock",
+          "name": "应用锁",
+          "slug": "applock",
+          "domain": "applock.anxiqing.cn",
+          "description": "应用加锁保护"
+        },
+        {
+          "id": "keyboard-pro",
+          "name": "键盘Pro",
+          "slug": "keyboardpro",
+          "domain": "keyboardpro.anxiqing.cn",
+          "description": "自定义键盘"
+        },
+        {
+          "id": "launcher-pro",
+          "name": "桌面Pro",
+          "slug": "launcherpro",
+          "domain": "launcherpro.anxiqing.cn",
+          "description": "桌面启动器"
+        },
+        {
+          "id": "vpn-manager",
+          "name": "VPN管理",
+          "slug": "vpnmanager",
+          "domain": "vpnmanager.anxiqing.cn",
+          "description": "VPN连接管理"
+        },
+        {
+          "id": "sms-manager",
+          "name": "短信管理",
+          "slug": "smsmanager",
+          "domain": "smsmanager.anxiqing.cn",
+          "description": "短信分类管理"
+        }
+      ]
+    },
+    "browser": {
+      "name": "浏览与通讯类",
+      "count": 3,
+      "apps": [
+        {
+          "id": "browser-lite",
+          "name": "轻量浏览器",
+          "slug": "browserlite",
+          "domain": "browserlite.anxiqing.cn",
+          "description": "轻量级浏览器"
+        },
+        {
+          "id": "tok",
+          "name": "Tok",
+          "slug": "tok",
+          "domain": "tok.anxiqing.cn",
+          "description": "即时通讯工具"
+        },
+        {
+          "id": "ar-home",
+          "name": "AR家装",
+          "slug": "arhome",
+          "domain": "arhome.anxiqing.cn",
+          "description": "AR家居预览"
+        }
+      ]
+    },
+    "ar": {
+      "name": "AR与特效类",
+      "count": 2,
+      "apps": [
+        {
+          "id": "ar-makeup",
+          "name": "AR美妆",
+          "slug": "armakeup",
+          "domain": "armakeup.anxiqing.cn",
+          "description": "AR虚拟试妆"
+        },
+        {
+          "id": "logo-maker",
+          "name": "Logo制作",
+          "slug": "logomaker",
+          "domain": "logomaker.anxiqing.cn",
+          "description": "Logo设计制作"
+        }
+      ]
+    }
+  },
+  "all_apps": [
+    { "id": "ai-paint", "name": "AI绘画", "slug": "aipaint", "category": "image" },
+    { "id": "ai-portrait", "name": "AI写真", "slug": "aiportrait", "category": "image" },
+    { "id": "app-lock", "name": "应用锁", "slug": "applock", "category": "security" },
+    { "id": "ar-home", "name": "AR家装", "slug": "arhome", "category": "browser" },
+    { "id": "ar-makeup", "name": "AR美妆", "slug": "armakeup", "category": "ar" },
+    { "id": "avatar-art", "name": "头像艺术", "slug": "avatarart", "category": "image" },
+    {
+      "id": "lianlian-jueding",
+      "name": "恋恋决定",
+      "slug": "lianlianjueding",
+      "category": "lifestyle"
+    },
+    { "id": "baby-record", "name": "育儿记录", "slug": "babyrecord", "category": "lifestyle" },
+    { "id": "browser-lite", "name": "轻量浏览器", "slug": "browserlite", "category": "browser" },
+    { "id": "calculator", "name": "科学计算器", "slug": "calculator", "category": "tools" },
+    { "id": "calendar-pro", "name": "日历Pro", "slug": "calendarpro", "category": "tools" },
+    { "id": "collage", "name": "拼图", "slug": "collage", "category": "image" },
+    { "id": "color-palette", "name": "色卡精灵", "slug": "colorpalette", "category": "lifestyle" },
+    { "id": "compass", "name": "指南针", "slug": "compass", "category": "lifestyle" },
+    { "id": "dimension-mark", "name": "尺寸标注", "slug": "dimensionmark", "category": "tools" },
+    { "id": "doodle-notes", "name": "涂鸦笔记", "slug": "doodlenotes", "category": "productivity" },
+    { "id": "emoji-maker", "name": "颜究生", "slug": "emojimaker", "category": "image" },
+    { "id": "led-barrage", "name": "LED闪字", "slug": "ledflashtext", "category": "image" },
+    {
+      "id": "fitness-tracker",
+      "name": "健身追踪",
+      "slug": "fitnesstracker",
+      "category": "lifestyle"
+    },
+    { "id": "gif-to-video", "name": "GIF转视频", "slug": "giftovideo", "category": "video" },
+    { "id": "grid-maker", "name": "格作", "slug": "gridmaker", "category": "tools" },
+    { "id": "id-enhance", "name": "证件照增强", "slug": "idenhance", "category": "image" },
+    { "id": "id-photo", "name": "证件照", "slug": "idphoto", "category": "image" },
+    { "id": "image-compress", "name": "SlimPic", "slug": "imagecompress", "category": "image" },
+    {
+      "id": "invoice-manager",
+      "name": "发票管理",
+      "slug": "invoicemanager",
+      "category": "productivity"
+    },
+    { "id": "keyboard-pro", "name": "键盘Pro", "slug": "keyboardpro", "category": "security" },
+    { "id": "launcher-pro", "name": "桌面Pro", "slug": "launcherpro", "category": "security" },
+    { "id": "linear-anim", "name": "线性动画", "slug": "linearanim", "category": "video" },
+    { "id": "logo-maker", "name": "Logo制作", "slug": "logomaker", "category": "ar" },
+    { "id": "mindflow", "name": "心流", "slug": "mindflow", "category": "productivity" },
+    { "id": "moveplay", "name": "家庭体感乐园", "slug": "moveplay", "category": "lifestyle" },
+    { "id": "nine-chapters", "name": "九章", "slug": "ninechapters", "category": "productivity" },
+    { "id": "noise-meter", "name": "分贝仪", "slug": "noisemeter", "category": "tools" },
+    { "id": "notes-app", "name": "笔记", "slug": "notesapp", "category": "productivity" },
+    { "id": "packet-capture", "name": "抓包工具", "slug": "packetcapture", "category": "tools" },
+    { "id": "pdf-toolbox", "name": "PDF工具箱", "slug": "pdftoolbox", "category": "productivity" },
+    { "id": "photo-frame", "name": "相框", "slug": "photoframe", "category": "lifestyle" },
+    { "id": "private-album", "name": "私密相册", "slug": "privatealbum", "category": "lifestyle" },
+    { "id": "qr-code", "name": "二维码", "slug": "qrcode", "category": "tools" },
+    { "id": "ruler-level", "name": "尺子水平仪", "slug": "rulerlevel", "category": "tools" },
+    { "id": "screen-recorder", "name": "屏幕录制", "slug": "screenrecorder", "category": "video" },
+    {
+      "id": "screenshot-beautify",
+      "name": "截图美化",
+      "slug": "screenshotbeautify",
+      "category": "tools"
+    },
+    { "id": "sleep-sounds", "name": "助眠白噪音", "slug": "sleepsounds", "category": "lifestyle" },
+    { "id": "sms-manager", "name": "短信管理", "slug": "smsmanager", "category": "security" },
+    { "id": "stamp-maker", "name": "印章制作", "slug": "stamper", "category": "tools" },
+    { "id": "sticker-maker", "name": "贴纸制作", "slug": "stickermaker", "category": "image" },
+    { "id": "subtitle-editor", "name": "字幕编辑", "slug": "subtitleeditor", "category": "video" },
+    { "id": "system-monitor", "name": "系统监控", "slug": "systemmonitor", "category": "tools" },
+    { "id": "teleprompter", "name": "提词器", "slug": "teleprompter", "category": "tools" },
+    { "id": "tok", "name": "Tok", "slug": "tok", "category": "browser" },
+    { "id": "translator", "name": "译言宝", "slug": "translator", "category": "productivity" },
+    { "id": "video-player", "name": "视频播放器", "slug": "videoplayer", "category": "video" },
+    { "id": "video-x", "name": "Video X", "slug": "videox", "category": "video" },
+    { "id": "visual-magic", "name": "视觉魔法", "slug": "visualmagic", "category": "image" },
+    {
+      "id": "nightingale-voice-changer",
+      "name": "夜莺变声器",
+      "slug": "nightingalevoicechanger",
+      "category": "lifestyle"
+    },
+    { "id": "vpn-manager", "name": "VPN管理", "slug": "vpnmanager", "category": "security" },
+    { "id": "install-b", "name": "快拼工坊", "slug": "snapkitstudio", "category": "image" },
+    { "id": "longshot", "name": "长截图", "slug": "longshot", "category": "image" },
+    {
+      "id": "watermark-camera",
+      "name": "水印相机",
+      "slug": "watermarkcamera",
+      "category": "image"
+    },
+    { "id": "beaker", "name": "烧杯实验", "slug": "beaker", "category": "tools" },
+    { "id": "cad-viewer", "name": "CAD查看器", "slug": "cadviewer", "category": "tools" },
+    { "id": "easy-share", "name": "快传", "slug": "easyshare", "category": "tools" },
+    { "id": "phone-transfer", "name": "手机迁移", "slug": "phonetransfer", "category": "tools" },
+    { "id": "theme-maker", "name": "Theme Maker", "slug": "thememaker", "category": "tools" },
+    {
+      "id": "universal-widget",
+      "name": "万能小组件",
+      "slug": "universalwidget",
+      "category": "tools"
+    },
+    { "id": "anniversary", "name": "纪念日", "slug": "anniversary", "category": "productivity" },
+    { "id": "codepath", "name": "编程小路", "slug": "codepath", "category": "productivity" },
+    { "id": "pinpinxue", "name": "拼拼学", "slug": "pinpinxue", "category": "productivity" },
+    {
+      "id": "pomodoro-timer",
+      "name": "番茄钟",
+      "slug": "pomodorotimer",
+      "category": "productivity"
+    },
+    {
+      "id": "shift-calendar",
+      "name": "倒班日历",
+      "slug": "shiftcalendar",
+      "category": "productivity"
+    },
+    { "id": "suanshutong", "name": "算术通", "slug": "suanshutong", "category": "productivity" },
+    { "id": "tuxing", "name": "图形认知", "slug": "tuxing", "category": "productivity" },
+    { "id": "ziqu", "name": "字趣", "slug": "ziqu", "category": "productivity" },
+    {
+      "id": "animal-translator",
+      "name": "动物翻译",
+      "slug": "animaltranslator",
+      "category": "lifestyle"
+    },
+    { "id": "couple-love", "name": "情侣空间", "slug": "couplelove", "category": "lifestyle" },
+    { "id": "stress-relief", "name": "解压", "slug": "stressrelief", "category": "lifestyle" },
+    { "id": "water-tracker", "name": "每日喝水", "slug": "watertracker", "category": "lifestyle" },
+    { "id": "alarm-clock", "name": "闹钟", "slug": "alarmclock", "category": "tools" },
+    { "id": "baby-growth", "name": "宝宝成长", "slug": "babygrowth", "category": "lifestyle" },
+    { "id": "doc-scanner", "name": "文档扫描", "slug": "docscanner", "category": "tools" },
+    {
+      "id": "expense-tracker",
+      "name": "记账",
+      "slug": "expensetracker",
+      "category": "productivity"
+    },
+    { "id": "file-manager", "name": "文件管理", "slug": "filemanager", "category": "tools" },
+    { "id": "flashlight", "name": "手电筒", "slug": "flashlight", "category": "tools" },
+    {
+      "id": "habit-tracker",
+      "name": "习惯养成",
+      "slug": "habittracker",
+      "category": "productivity"
+    },
+    { "id": "image-mark", "name": "图片标注", "slug": "imagemark", "category": "tools" },
+    {
+      "id": "poker-viewer",
+      "name": "德州扑克辅助",
+      "slug": "pokerviewer",
+      "category": "lifestyle"
+    },
+    { "id": "sensorsphere", "name": "传感器", "slug": "sensorsphere", "category": "tools" },
+    { "id": "voice-mood", "name": "心语日记", "slug": "voicemood", "category": "productivity" }
+  ]
+}

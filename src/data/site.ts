@@ -19,14 +19,13 @@ export const siteMeta = {
 export const navItems = [
   { label: '进度', href: '/' },
   { label: '架构', href: '/architecture' },
-  { label: '应用目录', href: '/catalog' },
-  { label: '交付', href: '/apps' },
+  { label: '应用', href: '/apps' },
   { label: '时间线', href: '/timeline' },
   { label: '愿望池', href: '/wishlist' },
 ];
 
 export const footerLinks = [
-  { label: '应用目录', href: '/catalog' },
+  { label: '应用目录', href: '/apps' },
   { label: '整体架构', href: '/architecture' },
   { label: '体系说明', href: '/about' },
   { label: '开源汇总', href: 'https://open.i2kai.com', external: true },
