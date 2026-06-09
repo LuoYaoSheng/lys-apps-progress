@@ -1,155 +1,190 @@
 ---
 import ArchitectureDiagrams from '../ArchitectureDiagrams.astro';
+import DiagramCallout from './primitives/DiagramCallout.astro';
+import DiagramDefs from './primitives/DiagramDefs.astro';
+import DiagramLane from './primitives/DiagramLane.astro';
+import DiagramNode from './primitives/DiagramNode.astro';
+
+const defsId = 'req';
+const mainChain = [
+  { x: 28, title: '用户', sub: 'App 终端', variant: 'default' as const },
+  { x: 158, title: '客户端', sub: 'Flutter / UniApp / H5', variant: 'default' as const },
+  { x: 288, title: 'SDK', sub: 'hub_core · 设备签名', variant: 'default' as const },
+  { x: 418, title: 'APISIX', sub: 'api.i2kai.com', variant: 'accent' as const, badge: '入口' },
+  { x: 548, title: 'gateway', sub: '协议 · Token · 聚合', variant: 'blue' as const },
+  { x: 678, title: 'app-router', sub: '按 appId 路由', variant: 'blue' as const },
+  { x: 808, title: 'public-api', sub: 'App HTTP 门面', variant: 'default' as const },
+];
+
+const rpcRow1 = ['auth-rpc', 'channel-rpc', 'payment-rpc', 'promotion-rpc', 'file-rpc', 'vip-rpc'];
+const rpcRow2 = [
+  'voice-rpc',
+  'translation-rpc',
+  'notification-rpc',
+  'content-rpc',
+  'legal-rpc',
+  'feedback-rpc',
+];
 ---
 
 <ArchitectureDiagrams
   id="diagram-request"
   title="图 2 · 用户侧端到端"
-  caption="App 不直连 RPC。所有正式请求先进入 APISIX，经 gateway 分流到 public-api，再聚合平台微服务。"
+  caption="HTTP 门面层与 RPC 领域层分离：public-api 编排调用，账号/支付/文件等主规则留在平台微服务。"
+  highlights={['不直连 RPC', '门面 ≠ 事实源', 'storage 旁路']}
 >
-  <svg viewBox="0 0 1100 420" role="img" aria-label="用户侧端到端请求架构图">
-    <defs>
-      <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-        <path d="M0,0 L6,3 L0,6 Z" fill="#111"></path>
-      </marker>
-    </defs>
-    <!-- 主链路 -->
+  <svg viewBox="0 0 1140 500" role="img" aria-label="用户侧端到端请求架构图">
+    <DiagramDefs id={defsId} />
+    <rect width="1140" height="500" fill={`url(#${defsId}-grid)`}></rect>
+
+    <DiagramLane
+      x={20}
+      y={28}
+      w={1100}
+      h={118}
+      label="HTTP 入口链路（App 正式请求）"
+      color="#dcecff"
+    />
+
     {
-      [
-        { x: 20, label: '用户', sub: 'App 终端' },
-        { x: 130, label: '客户端', sub: 'Flutter/UniApp' },
-        { x: 260, label: 'SDK', sub: 'hub_core' },
-        { x: 370, label: 'APISIX', sub: 'api.i2kai.com', accent: true },
-        { x: 500, label: 'gateway', sub: '协议/Token' },
-        { x: 620, label: 'app-router', sub: '按 appId 路由' },
-        { x: 760, label: 'public-api', sub: 'App HTTP 门面' },
-      ].map((n, i, arr) => (
+      mainChain.map((n, i, arr) => (
         <>
-          <rect
+          <DiagramNode
             x={n.x}
-            y="40"
-            width="100"
-            height="56"
-            rx="8"
-            fill={n.accent ? '#1f8f5f' : '#fffdf8'}
-            stroke="#111"
-            stroke-width="2"
+            y={58}
+            w={118}
+            h={62}
+            title={n.title}
+            subtitle={n.sub}
+            variant={n.variant}
+            badge={n.badge}
+            defsId={defsId}
           />
-          <text
-            x={n.x + 50}
-            y="68"
-            text-anchor="middle"
-            font-size="13"
-            font-weight="700"
-            fill={n.accent ? '#fff' : '#111'}
-          >
-            {n.label}
-          </text>
-          <text
-            x={n.x + 50}
-            y="84"
-            text-anchor="middle"
-            font-size="10"
-            fill={n.accent ? '#dff4e6' : '#5d625f'}
-          >
-            {n.sub}
-          </text>
           {i < arr.length - 1 && (
             <line
-              x1={n.x + 100}
-              y1="68"
+              x1={n.x + 118}
+              y1="89"
               x2={arr[i + 1].x}
-              y2="68"
+              y2="89"
               stroke="#111"
-              stroke-width="2"
-              marker-end="url(#arr2)"
+              stroke-width="2.2"
+              marker-end={`url(#${defsId}-arrow)`}
             />
           )}
         </>
       ))
     }
-    <!-- RPC 下沉 -->
-    <line x1="810" y1="96" x2="810" y2="140" stroke="#111" stroke-width="2" marker-end="url(#arr2)"
-    ></line>
-    <text x="820" y="128" font-size="10" fill="#5d625f">RPC 聚合</text>
+
+    <line
+      x1="867"
+      y1="120"
+      x2="867"
+      y2="168"
+      stroke="#111"
+      stroke-width="2.2"
+      marker-end={`url(#${defsId}-arrow)`}></line>
+    <text x="878" y="152" font-size="10" font-weight="600" fill="#5d625f">gRPC 聚合</text>
+
+    <DiagramLane
+      x={20}
+      y={168}
+      w={1100}
+      h={148}
+      label="平台 RPC 领域层（共享微服务 · 事实源）"
+      color="#e7e3db"
+    />
+
     {
-      [
-        { x: 80, label: 'auth-rpc' },
-        { x: 220, label: 'payment-rpc' },
-        { x: 360, label: 'channel-rpc' },
-        { x: 500, label: 'file-rpc' },
-        { x: 640, label: 'voice-rpc' },
-        { x: 780, label: 'translation-rpc' },
-        { x: 920, label: 'vip-rpc' },
-      ].map((n) => (
-        <>
-          <rect
-            x={n.x}
-            y="150"
-            width="110"
-            height="40"
-            rx="6"
-            fill="#e7e3db"
-            stroke="#111"
-            stroke-width="1.5"
-          />
-          <text
-            x={n.x + 55}
-            y="175"
-            text-anchor="middle"
-            font-size="11"
-            font-weight="600"
-            fill="#111"
-          >
-            {n.label}
-          </text>
-        </>
+      rpcRow1.map((label, i) => (
+        <DiagramNode
+          x={36 + i * 178}
+          y={204}
+          w={158}
+          h={44}
+          title={label}
+          variant="rpc"
+          defsId={defsId}
+          rx={8}
+        />
       ))
     }
-    <!-- storage 旁路 -->
-    <line
-      x1="420"
-      y1="96"
-      x2="420"
-      y2="240"
-      stroke="#111"
-      stroke-width="2"
+    {
+      rpcRow2.map((label, i) => (
+        <DiagramNode
+          x={36 + i * 178}
+          y={258}
+          w={158}
+          h={44}
+          title={label}
+          variant="rpc"
+          defsId={defsId}
+          rx={8}
+        />
+      ))
+    }
+
+    <!-- payment → vip -->
+    <path
+      d="M 392 248 L 392 268 L 926 268 L 926 248"
+      fill="none"
+      stroke="#1f8f5f"
+      stroke-width="1.8"
       stroke-dasharray="5 4"
-      marker-end="url(#arr2)"></line>
-    <rect
-      x="360"
-      y="250"
-      width="120"
-      height="44"
-      rx="8"
-      fill="#ffe1dc"
-      stroke="#111"
-      stroke-width="2"></rect>
-    <text x="420" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="#111"
-      >storage-api</text
-    >
-    <text x="420" y="286" text-anchor="middle" font-size="10" fill="#5d625f">/v1/storage/*</text>
+      marker-end={`url(#${defsId}-arrow-green)`}></path>
+    <text x="640" y="284" text-anchor="middle" font-size="10" font-weight="600" fill="#1f8f5f">
+      支付履约链 payment-rpc → vip-rpc
+    </text>
+
+    <!-- storage 旁路 -->
+    <DiagramLane
+      x={20}
+      y={332}
+      w={360}
+      h={108}
+      label="文件旁路（不经 public-api）"
+      color="#ffe1dc"
+    />
     <line
-      x1="420"
-      y1="294"
-      x2="555"
-      y2="170"
+      x1="477"
+      y1="120"
+      x2="477"
+      y2="360"
+      stroke="#f25f4c"
+      stroke-width="2"
+      stroke-dasharray="6 5"
+      marker-end={`url(#${defsId}-arrow)`}></line>
+    <DiagramNode
+      x={48}
+      y={368}
+      w={140}
+      h={52}
+      title="storage-api"
+      subtitle="/v1/storage/*"
+      variant="storage"
+      defsId={defsId}
+    />
+    <line
+      x1="188"
+      y1="394"
+      x2="280"
+      y2="248"
       stroke="#111"
       stroke-width="1.5"
       stroke-dasharray="4 3"></line>
+    <text x="210" y="320" font-size="10" fill="#5d625f">→ file-rpc</text>
 
-    <rect
-      x="40"
-      y="330"
-      width="1020"
-      height="68"
-      rx="8"
-      fill="#f7f3ea"
-      stroke="#111"
-      stroke-width="1.5"></rect>
-    <text x="60" y="356" font-size="12" font-weight="700" fill="#111">关键约束</text>
-    <text x="60" y="378" font-size="11" fill="#5d625f">
-      ① App 不直连微服务 ② public-api 是门面不是事实源 ③ 账号/支付/文件主规则在平台 RPC
-    </text>
+    <DiagramCallout
+      x={400}
+      y={332}
+      w={720}
+      title="关键约束"
+      tone="warn"
+      defsId={defsId}
+      lines={[
+        '① App 正式客户端优先走 /app/{appId}/v1/*，业务不长期挂旧公共路径',
+        '② 支付回调、推广短链、广告 postback 走 /v1/* 或 /s/*，不走 App 私有路由',
+        '③ gateway / public-api / admin-api 都是门面；配置与订单事实在 RPC + PostgreSQL',
+      ]}
+    />
   </svg>
 </ArchitectureDiagrams>

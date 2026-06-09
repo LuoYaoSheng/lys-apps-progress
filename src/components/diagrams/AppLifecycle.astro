@@ -1,159 +1,193 @@
 ---
 import ArchitectureDiagrams from '../ArchitectureDiagrams.astro';
+import DiagramCallout from './primitives/DiagramCallout.astro';
+import DiagramDefs from './primitives/DiagramDefs.astro';
+import DiagramLane from './primitives/DiagramLane.astro';
+import DiagramNode from './primitives/DiagramNode.astro';
+
+const defsId = 'life';
+const boot = [
+  { x: 32, t: 'App 启动' },
+  { x: 178, t: 'init appId' },
+  { x: 314, t: 'channelCode' },
+  { x: 468, t: 'deviceId' },
+  { x: 612, t: 'device-login' },
+  { x: 758, t: 'app-config' },
+  { x: 904, t: '业务页面' },
+];
 ---
 
 <ArchitectureDiagrams
   id="diagram-lifecycle"
   title="图 5 · App 启动与支付主流程"
-  caption="从启动到支付的典型路径：登录 → 拉配置 → 业务请求 / 文件上传 / 支付履约。"
+  caption="从冷启动到业务动作的典型路径：鉴权 → 拉配置 → 三分支（业务 / 文件 / 支付）→ 回调履约链。"
+  highlights={['启动七步', '三分支', '支付回调链']}
 >
-  <svg viewBox="0 0 960 400" role="img" aria-label="App 启动与支付主流程架构图">
-    <defs>
-      <marker id="arr5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-        <path d="M0,0 L6,3 L0,6 Z" fill="#111"></path>
-      </marker>
-    </defs>
-    <!-- 启动链 -->
+  <svg viewBox="0 0 1100 520" role="img" aria-label="App 启动与支付主流程架构图">
+    <DiagramDefs id={defsId} />
+    <rect width="1100" height="520" fill={`url(#${defsId}-grid)`}></rect>
+
+    <DiagramLane x={16} y={24} w={1068} h={88} label="启动链（鉴权 + 配置）" color="#dcecff" />
+
     {
-      [
-        { x: 30, t: 'App 启动' },
-        { x: 170, t: '初始化 appId' },
-        { x: 330, t: 'device-login' },
-        { x: 490, t: '读取 app-config' },
-        { x: 660, t: '进入业务页' },
-      ].map((n, i, arr) => (
+      boot.map((n, i, arr) => (
         <>
-          <rect
+          <DiagramNode
             x={n.x}
-            y="30"
-            width="120"
-            height="40"
-            rx="8"
-            fill="#dcecff"
-            stroke="#111"
-            stroke-width="2"
+            y={44}
+            w={128}
+            h={44}
+            title={n.t}
+            variant={i >= 5 ? 'blue' : 'default'}
+            defsId={defsId}
+            rx={8}
           />
-          <text
-            x={n.x + 60}
-            y="55"
-            text-anchor="middle"
-            font-size="11"
-            font-weight="600"
-            fill="#111"
-          >
-            {n.t}
-          </text>
           {i < arr.length - 1 && (
             <line
-              x1={n.x + 120}
-              y1="50"
+              x1={n.x + 128}
+              y1="66"
               x2={arr[i + 1].x}
-              y2="50"
+              y2="66"
               stroke="#111"
               stroke-width="2"
-              marker-end="url(#arr5)"
+              marker-end={`url(#${defsId}-arrow)`}
             />
           )}
         </>
       ))
     }
 
-    <!-- 分支 -->
-    <line x1="720" y1="70" x2="720" y2="110" stroke="#111" stroke-width="2"></line>
-    <polygon points="720,110 700,140 740,140" fill="#111"></polygon>
+    <text x={612} y={38} font-size="9" fill="#5d625f">或 wechat-login</text>
+    <text x={758} y={38} font-size="9" fill="#5d625f">effective-config</text>
 
-    <rect
-      x="80"
-      y="170"
-      width="200"
-      height="80"
-      rx="8"
-      fill="#dff4e6"
-      stroke="#111"
-      stroke-width="2"></rect>
-    <text x="180" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#111"
-      >普通业务</text
-    >
-    <text x="180" y="218" text-anchor="middle" font-size="10" fill="#5d625f">
-      {'/app/{appId}/v1/*'}
-    </text>
-    <text x="180" y="236" text-anchor="middle" font-size="10" fill="#5d625f"
-      >→ public-api → 业务 RPC</text
-    >
+    <line x1="968" y1="88" x2="968" y2="128" stroke="#111" stroke-width="2"></line>
+    <polygon points="968,128 948,158 988,158" fill="#111"></polygon>
 
-    <rect
-      x="380"
-      y="170"
-      width="200"
-      height="80"
-      rx="8"
-      fill="#ffe1dc"
-      stroke="#111"
-      stroke-width="2"></rect>
-    <text x="480" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#111"
-      >文件上传</text
-    >
-    <text x="480" y="218" text-anchor="middle" font-size="10" fill="#5d625f">/v1/storage/*</text>
-    <text x="480" y="236" text-anchor="middle" font-size="10" fill="#5d625f"
-      >→ storage-api → file-rpc</text
-    >
+    <DiagramLane x={16} y={168} w={1068} h={148} label="业务动作三分支" color="#f7f3ea" />
 
-    <rect
-      x="680"
-      y="170"
-      width="220"
-      height="80"
-      rx="8"
-      fill="#fff0c2"
-      stroke="#111"
-      stroke-width="2"></rect>
-    <text x="790" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#111"
-      >发起支付</text
-    >
-    <text x="790" y="218" text-anchor="middle" font-size="10" fill="#5d625f">payment-rpc 验单</text>
-    <text x="790" y="236" text-anchor="middle" font-size="10" fill="#5d625f"
-      >→ vip-rpc 履约 + 推广归因</text
-    >
+    <g filter={`url(#${defsId}-shadow)`}>
+      <rect
+        x={32}
+        y={204}
+        width={320}
+        height={96}
+        rx="12"
+        fill="#dff4e6"
+        stroke="#111"
+        stroke-width="2"></rect>
+      <text x={52} y={232} font-size="13" font-weight="700" fill="#111">普通业务</text>
+      <text x={52} y={254} font-size="11" fill="#5d625f">{'/app/{appId}/v1/*'}</text>
+      <text x={52} y={274} font-size="11" fill="#5d625f">→ public-api → 业务 RPC + 共享 RPC</text>
+      <text x={52} y={292} font-size="10" fill="#1f8f5f"
+        >content · legal · feedback · notification</text
+      >
+    </g>
+
+    <g filter={`url(#${defsId}-shadow)`}>
+      <rect
+        x={390}
+        y={204}
+        width={300}
+        height={96}
+        rx="12"
+        fill="#ffe1dc"
+        stroke="#111"
+        stroke-width="2"></rect>
+      <text x={410} y={232} font-size="13" font-weight="700" fill="#111">文件上传</text>
+      <text x={410} y={254} font-size="11" fill="#5d625f">/v1/storage/*</text>
+      <text x={410} y={274} font-size="11" fill="#5d625f">→ storage-api → file-rpc</text>
+      <text x={410} y={292} font-size="10" fill="#5d625f">策略与元数据事实源在 file-rpc</text>
+    </g>
+
+    <g filter={`url(#${defsId}-shadow)`}>
+      <rect
+        x={728}
+        y={204}
+        width={340}
+        height={96}
+        rx="12"
+        fill="#fff0c2"
+        stroke="#111"
+        stroke-width="2"></rect>
+      <text x={748} y={232} font-size="13" font-weight="700" fill="#111">发起支付</text>
+      <text x={748} y={254} font-size="11" fill="#5d625f">{'/app/{appId}/v1/payment/*'}</text>
+      <text x={748} y={274} font-size="11" fill="#5d625f"
+        >→ payment-rpc 创建订单 · IAP / 微信 / 支付宝</text
+      >
+      <text x={748} y={292} font-size="10" fill="#5d625f">客户端验单 + 服务端回调双通道</text>
+    </g>
 
     <line
-      x1="720"
-      y1="140"
-      x2="180"
-      y2="170"
+      x1="968"
+      y1="158"
+      x2="192"
+      y2="204"
       stroke="#111"
-      stroke-width="1.5"
-      marker-end="url(#arr5)"></line>
+      stroke-width="1.6"
+      marker-end={`url(#${defsId}-arrow)`}></line>
     <line
-      x1="720"
-      y1="140"
-      x2="480"
-      y2="170"
+      x1="968"
+      y1="158"
+      x2="540"
+      y2="204"
       stroke="#111"
-      stroke-width="1.5"
-      marker-end="url(#arr5)"></line>
+      stroke-width="1.6"
+      marker-end={`url(#${defsId}-arrow)`}></line>
     <line
-      x1="720"
-      y1="140"
-      x2="790"
-      y2="170"
+      x1="968"
+      y1="158"
+      x2="898"
+      y2="204"
       stroke="#111"
-      stroke-width="1.5"
-      marker-end="url(#arr5)"></line>
+      stroke-width="1.6"
+      marker-end={`url(#${defsId}-arrow)`}></line>
 
-    <!-- 支付子流程 -->
-    <rect
-      x="600"
-      y="290"
-      width="340"
-      height="90"
-      rx="8"
-      fill="#f7f3ea"
-      stroke="#111"
-      stroke-width="2"></rect>
-    <text x="620" y="318" font-size="12" font-weight="700" fill="#111">支付回调链</text>
-    <text x="620" y="340" font-size="11" fill="#5d625f">支付回调 → payment-rpc 更新订单</text>
-    <text x="620" y="358" font-size="11" fill="#5d625f"
-      >→ vip-rpc 发放权益 · promotion-rpc 记录转化</text
-    >
+    <DiagramLane x={16} y={332} w={1068} h={168} label="支付回调履约链" color="#fff0c2" />
+
+    {
+      [
+        { x: 48, t: '支付回调', sub: '/v1/payment/callback' },
+        { x: 228, t: 'payment-rpc', sub: '验单 · 更新订单' },
+        { x: 408, t: 'vip-rpc', sub: '发放权益' },
+        { x: 588, t: 'promotion-rpc', sub: '记录转化' },
+        { x: 788, t: 'App 刷新', sub: '会员状态 UI' },
+      ].map((n, i, arr) => (
+        <>
+          <DiagramNode
+            x={n.x}
+            y={372}
+            w={158}
+            h={54}
+            title={n.t}
+            subtitle={n.sub}
+            variant={i === 1 ? 'blue' : i === 2 ? 'accent' : 'default'}
+            defsId={defsId}
+          />
+          {i < arr.length - 1 && (
+            <line
+              x1={n.x + 158}
+              y1="399"
+              x2={arr[i + 1].x}
+              y2="399"
+              stroke="#111"
+              stroke-width="2"
+              marker-end={`url(#${defsId}-arrow)`}
+            />
+          )}
+        </>
+      ))
+    }
+
+    <DiagramCallout
+      x={16}
+      y={448}
+      w={1068}
+      title="记住"
+      tone="tip"
+      defsId={defsId}
+      lines={[
+        '支付回调走平台共享路径，不走 App 私有路由 · 页面显示会员态以 vip-rpc 为准 · 推广归因在 promotion-rpc',
+      ]}
+    />
   </svg>
 </ArchitectureDiagrams>

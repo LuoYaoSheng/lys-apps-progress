@@ -845,11 +845,77 @@ img {
   padding-bottom: 24px;
 }
 
+.arch-rule-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 12px 18px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--green-soft);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.arch-rule-label {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.arch-constraints {
+  padding-bottom: 32px;
+}
+
+.constraint-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.constraint-card {
+  padding: 18px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.constraint-index {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--green);
+  letter-spacing: 0.08em;
+}
+
+.constraint-card h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.constraint-card p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .diagram-toc {
+  position: sticky;
+  top: 80px;
+  z-index: 5;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 20px;
+  padding: 10px 0;
+  background: linear-gradient(180deg, var(--paper) 70%, transparent);
 }
 
 .diagram-toc a {
@@ -873,21 +939,70 @@ img {
 .arch-diagram-figure {
   margin: 0;
   border: 2px solid var(--ink);
-  border-radius: var(--radius);
+  border-radius: calc(var(--radius) + 2px);
   background: var(--panel);
   box-shadow: 6px 6px 0 var(--ink);
   overflow: hidden;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.arch-diagram-figure:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 10px 0 var(--ink);
+}
+
+.arch-diagram-figure--featured {
+  border-width: 2.5px;
+  box-shadow: 8px 8px 0 var(--green);
+}
+
+.arch-diagram-figure--featured:hover {
+  box-shadow: 10px 12px 0 var(--green);
+}
+
+.arch-diagram-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.arch-diagram-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.arch-diagram-highlights li {
+  padding: 4px 10px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.arch-diagram-figure--featured .arch-diagram-highlights li {
+  background: var(--green-soft);
 }
 
 .arch-diagram-figure figcaption {
-  padding: 16px 18px 12px;
+  padding: 18px 20px 14px;
   border-bottom: 1px solid var(--line);
-  background: var(--panel-strong);
+  background: linear-gradient(180deg, var(--panel-strong), var(--panel));
 }
 
 .arch-diagram-figure h3 {
-  margin: 0 0 6px;
-  font-size: 18px;
+  margin: 0;
+  font-size: 19px;
 }
 
 .arch-diagram-figure p {
@@ -898,16 +1013,29 @@ img {
 }
 
 .arch-diagram-canvas {
-  padding: 12px;
+  padding: 16px;
   overflow-x: auto;
-  background: #fffdf8;
+  background:
+    linear-gradient(90deg, rgba(17, 17, 17, 0.025) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 17, 17, 0.025) 1px, transparent 1px), #fffdf8;
+  background-size: 20px 20px;
 }
 
 .arch-diagram-canvas svg {
   display: block;
   width: 100%;
-  min-width: 640px;
+  min-width: 720px;
   height: auto;
+}
+
+@media (max-width: 900px) {
+  .constraint-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-diagram-head {
+    flex-direction: column;
+  }
 }
 
 .arch-snapshot {

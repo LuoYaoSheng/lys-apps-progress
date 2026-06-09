@@ -1,0 +1,27 @@
+---
+interface Props {
+  x: number;
+  y: number;
+  label: string;
+  tone?: 'green' | 'blue' | 'amber' | 'gray';
+}
+
+const { x, y, label, tone = 'gray' } = Astro.props;
+const fills = { green: '#dff4e6', blue: '#dcecff', amber: '#fff0c2', gray: '#fffdf8' };
+const w = label.length * 7 + 18;
+---
+
+<g>
+  <rect
+    x={x}
+    y={y}
+    width={w}
+    height="22"
+    rx="11"
+    fill={fills[tone]}
+    stroke="#111"
+    stroke-width="1.2"></rect>
+  <text x={x + w / 2} y={y + 15} text-anchor="middle" font-size="10" font-weight="600" fill="#111">
+    {label}
+  </text>
+</g>

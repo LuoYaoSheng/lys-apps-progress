@@ -8,7 +8,9 @@ import RequestFlow from '../components/diagrams/RequestFlow.astro';
 import RouteSplit from '../components/diagrams/RouteSplit.astro';
 import {
   architectureMeta,
+  keyConstraints,
   platformModules,
+  referenceApps,
   sharedCapabilities,
   statusLabels,
 } from '../data/architecture';
@@ -29,6 +31,10 @@ const completion = Math.round((stats.released / target.total) * 100);
         <p class="section-kicker">TEAM SYNC · 更新 {architectureMeta.updatedAt}</p>
         <h1>{architectureMeta.title}</h1>
         <p>{architectureMeta.summary}</p>
+        <div class="arch-rule-banner">
+          <span class="arch-rule-label">固定认知</span>
+          <strong>所有正式请求都先进入 APISIX</strong>
+        </div>
         <div class="section-actions" style="margin-top: 20px">
           <a class="button-primary" href="/apps">应用目录</a>
           <a class="button-secondary" href="/timeline">时间线</a>
@@ -92,6 +98,27 @@ const completion = Math.round((stats.released / target.total) * 100);
       </div>
     </section>
 
+    <section class="container arch-constraints">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">CONSTRAINTS</p>
+          <h2>关键约束</h2>
+          <p>与主仓架构文档一致，协作时优先对齐以下六条。</p>
+        </div>
+      </div>
+      <div class="constraint-grid">
+        {
+          keyConstraints.map((c, i) => (
+            <article class="constraint-card">
+              <span class="constraint-index">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{c.title}</h3>
+              <p>{c.desc}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
     <section class="container about-stack">
       <!-- 平台模块进度 -->
       <article class="detail-panel">
@@ -130,6 +157,35 @@ const completion = Math.round((stats.released / target.total) * 100);
               <div class="about-card">
                 <h3>{cap.name}</h3>
                 <p>{cap.apps}</p>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <article class="detail-panel">
+        <p class="section-kicker">REFERENCE APPS</p>
+        <h2>四 App 样板</h2>
+        <p>平台参照的代表性应用，覆盖 UniApp / Flutter 与不同能力组合。</p>
+        <div class="ref-app-grid">
+          {
+            referenceApps.map((app) => (
+              <div class="ref-app-card">
+                <h3>{app.name}</h3>
+                <code>{app.appKey}</code>
+                <p>{app.purpose}</p>
+                <span class="ref-tech">{app.tech}</span>
+                {app.slug ? (
+                  <a
+                    class="button-secondary"
+                    href={`/apps/${app.slug}`}
+                    style="margin-top:12px;display:inline-block"
+                  >
+                    看公开进度 →
+                  </a>
+                ) : (
+                  <span class="ref-note">业务样板 · 见应用目录同类条目</span>
+                )}
               </div>
             ))
           }

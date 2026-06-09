@@ -2,8 +2,35 @@ export const architectureMeta = {
   updatedAt: '2026-06-09',
   title: 'HUB 多 App 生态架构',
   summary:
-    '治理主仓 + 多个 App + 统一平台服务。出门协作时，打开本页即可和团队对齐整体结构与当前交付进度。',
+    '治理主仓 + 多个 App + 统一平台服务。本页用分层架构图说明请求怎么走、配置怎么生效、生产怎么部署，并与当前交付进度对齐。',
 };
+
+export const keyConstraints = [
+  {
+    title: 'APISIX 单入口',
+    desc: '所有正式请求先进入 APISIX，再按四路前缀分流；App 不直连 RPC。',
+  },
+  {
+    title: '门面 ≠ 事实源',
+    desc: 'gateway / public-api / admin-api 只做编排；账号、支付、文件规则在平台 RPC。',
+  },
+  {
+    title: '配置生效链',
+    desc: 'Admin 保存成功不等于运行态生效，需 config-rpc → ETCD → owner service 消费。',
+  },
+  {
+    title: '文件统一入口',
+    desc: '上传走 storage-api，策略与元数据事实源在 file-rpc。',
+  },
+  {
+    title: '回调走共享路径',
+    desc: '支付回调、推广短链、广告 postback 走 /v1/* 或 /s/*，不走 App 私有路由。',
+  },
+  {
+    title: '端口登记',
+    desc: '平台 18000–19999 · App ingress 55000–58999 · 业务 RPC 8000–9999，先登记 registry。',
+  },
+];
 
 export const layers = [
   {

@@ -1,76 +1,161 @@
 ---
 import ArchitectureDiagrams from '../ArchitectureDiagrams.astro';
+import DiagramCallout from './primitives/DiagramCallout.astro';
+import DiagramChip from './primitives/DiagramChip.astro';
+import DiagramDefs from './primitives/DiagramDefs.astro';
+import DiagramLane from './primitives/DiagramLane.astro';
+import DiagramNode from './primitives/DiagramNode.astro';
+
+const defsId = 'eco';
+const refApps = [
+  { name: '宝宝点滴', key: 'baby-diary', tech: 'UniApp' },
+  { name: '萌宠圈', key: 'cute-meow-circle', tech: 'UniApp' },
+  { name: '译言宝', key: 'translator', tech: 'Flutter' },
+  { name: '夜莺变声器', key: 'nightingale-voice-changer', tech: 'Flutter' },
+];
 ---
 
 <ArchitectureDiagrams
   id="diagram-ecosystem"
   title="图 1 · 生态三层总览"
-  caption="治理主仓管标准与门禁，App 子仓做业务，平台服务提供共享能力。100+ App 复用同一套底座。"
+  caption="治理主仓定标准与门禁，App 子仓承载业务，平台服务提供可复用能力。100+ App 共享同一套 APISIX 入口与微服务底座。"
+  highlights={['三层解耦', '标准先行', '能力复用']}
+  featured
 >
-  <svg viewBox="0 0 920 340" role="img" aria-label="HUB 生态三层总览架构图">
-    <defs>
-      <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-        <path d="M0,0 L6,3 L0,6 Z" fill="#111"></path>
-      </marker>
-    </defs>
-    <rect
-      x="40"
-      y="24"
-      width="840"
-      height="72"
-      rx="10"
-      fill="#dff4e6"
-      stroke="#111"
-      stroke-width="2"></rect>
-    <text x="60" y="52" font-size="18" font-weight="700" fill="#111">治理主仓</text>
-    <text x="60" y="76" font-size="13" fill="#5d625f"
-      >docs/ · scripts/management/ · packages/hub_core · 模板与门禁</text
-    >
+  <svg viewBox="0 0 1080 520" role="img" aria-label="HUB 生态三层总览架构图">
+    <DiagramDefs id={defsId} />
+    <rect width="1080" height="520" fill={`url(#${defsId}-grid)`}></rect>
 
-    <rect
-      x="40"
-      y="120"
-      width="840"
-      height="88"
-      rx="10"
-      fill="#dcecff"
-      stroke="#111"
-      stroke-width="2"></rect>
-    <text x="60" y="148" font-size="18" font-weight="700" fill="#111">App 子仓（100+）</text>
-    <text x="60" y="172" font-size="13" fill="#5d625f"
-      >Flutter / UniApp 客户端 + go-zero public-api + 业务 RPC</text
-    >
-    <text x="60" y="192" font-size="12" fill="#5d625f"
-      >样板：宝宝点滴 · 萌宠圈 · 译言宝 · 夜莺变声器</text
-    >
+    <DiagramLane
+      x={24}
+      y={56}
+      w={720}
+      h={96}
+      label="L1 · 治理主仓 HUB-Ecosystem-v2"
+      color="#dff4e6"
+    />
+    <DiagramChip x={48} y={88} label="docs/ 标准与架构" tone="green" />
+    <DiagramChip x={196} y={88} label="scripts/management/" tone="green" />
+    <DiagramChip x={352} y={88} label="packages/hub_core" tone="green" />
+    <DiagramChip x={498} y={88} label="模板 · 门禁 · CI" tone="green" />
+    <DiagramChip x={628} y={88} label="app-port-registry" tone="green" />
 
-    <rect
-      x="40"
-      y="232"
-      width="840"
-      height="88"
-      rx="10"
-      fill="#fff0c2"
-      stroke="#111"
-      stroke-width="2"></rect>
-    <text x="60" y="260" font-size="18" font-weight="700" fill="#111"
-      >平台共享服务 hub-platform-core</text
-    >
-    <text x="60" y="284" font-size="13" fill="#5d625f"
-      >APISIX 入口 · gateway · auth · payment · vip · voice · translation · storage</text
-    >
-
-    <line x1="460" y1="96" x2="460" y2="120" stroke="#111" stroke-width="2" marker-end="url(#arrow)"
-    ></line>
     <line
-      x1="460"
-      y1="208"
-      x2="460"
-      y2="232"
-      stroke="#111"
-      stroke-width="2"
-      marker-end="url(#arrow)"></line>
-    <text x="472" y="112" font-size="11" fill="#5d625f">依赖</text>
-    <text x="472" y="224" font-size="11" fill="#5d625f">调用</text>
+      x1="384"
+      y1="152"
+      x2="384"
+      y2="178"
+      stroke="#1f8f5f"
+      stroke-width="2.5"
+      marker-end={`url(#${defsId}-arrow-green)`}></line>
+    <text x="398" y="170" font-size="11" font-weight="600" fill="#1f8f5f">标准输出</text>
+
+    <DiagramLane
+      x={24}
+      y={178}
+      w={720}
+      h={118}
+      label="L2 · App 子仓（100+ 独立仓库）"
+      color="#dcecff"
+    />
+    <DiagramChip x={48} y={214} label="Flutter 客户端" tone="blue" />
+    <DiagramChip x={168} y={214} label="UniApp / 小程序" tone="blue" />
+    <DiagramChip x={296} y={214} label="go-zero public-api" tone="blue" />
+    <DiagramChip x={438} y={214} label="业务 RPC（8000-9999）" tone="blue" />
+    <DiagramChip x={598} y={214} label="local-rest-bridge" tone="blue" />
+    <text x={48} y={268} font-size="11" fill="#5d625f">
+      本地 ingress 端口段 55000–58999 · appKey = 目录名 kebab-case · appId = 去连字符
+    </text>
+
+    <line
+      x1="384"
+      y1="296"
+      x2="384"
+      y2="322"
+      stroke="#1d6fd4"
+      stroke-width="2.5"
+      marker-end={`url(#${defsId}-arrow)`}></line>
+    <text x="398" y="314" font-size="11" font-weight="600" fill="#1d6fd4">HTTP / RPC 调用</text>
+
+    <DiagramLane
+      x={24}
+      y={322}
+      w={720}
+      h={118}
+      label="L3 · 平台共享 hub-platform-core"
+      color="#fff0c2"
+    />
+    <DiagramChip x={48} y={358} label="APISIX 单入口" tone="amber" />
+    <DiagramChip x={168} y={358} label="gateway" tone="amber" />
+    <DiagramChip x={248} y={358} label="auth" tone="amber" />
+    <DiagramChip x={308} y={358} label="payment" tone="amber" />
+    <DiagramChip x={378} y={358} label="vip" tone="amber" />
+    <DiagramChip x={428} y={358} label="voice" tone="amber" />
+    <DiagramChip x={488} y={358} label="translation" tone="amber" />
+    <DiagramChip x={568} y={358} label="storage-api" tone="amber" />
+    <DiagramChip x={668} y={358} label="config-rpc" tone="amber" />
+    <text x={48} y={412} font-size="11" fill="#5d625f">
+      平台本地端口 18000–19999 · PostgreSQL · Redis · ETCD · files.i2kai.com
+    </text>
+
+    <DiagramCallout
+      x={768}
+      y={56}
+      w={288}
+      title="固定认知"
+      tone="tip"
+      defsId={defsId}
+      lines={[
+        '所有正式请求先进入 APISIX',
+        'App 不直连 RPC 微服务',
+        'public-api 是门面，不是事实源',
+        '配置生效看 owner service 消费',
+      ]}
+    />
+
+    <DiagramCallout
+      x={768}
+      y={210}
+      w={288}
+      title="路由四前缀"
+      tone="neutral"
+      defsId={defsId}
+      lines={[
+        '/app/{appId}/v1/* → 业务',
+        '/v1/{domain}/* → 共享 API',
+        '/v1/storage/* → 文件',
+        '/admin-api/* → 后台',
+      ]}
+    />
+
+    <text x={768} y={358} font-size="12" font-weight="700" fill="#111">四 App 样板</text>
+    {
+      refApps.map((app, i) => {
+        const col = i % 2;
+        const row = Math.floor(i / 2);
+        const bx = 768 + col * 144;
+        const by = 372 + row * 62;
+        return (
+          <g filter={`url(#${defsId}-shadow)`}>
+            <rect
+              x={bx}
+              y={by}
+              width={132}
+              height={52}
+              rx="8"
+              fill="#fffdf8"
+              stroke="#111"
+              stroke-width="1.5"
+            />
+            <text x={bx + 12} y={by + 22} font-size="12" font-weight="700" fill="#111">
+              {app.name}
+            </text>
+            <text x={bx + 12} y={by + 38} font-size="10" fill="#5d625f">
+              {app.key} · {app.tech}
+            </text>
+          </g>
+        );
+      })
+    }
   </svg>
 </ArchitectureDiagrams>

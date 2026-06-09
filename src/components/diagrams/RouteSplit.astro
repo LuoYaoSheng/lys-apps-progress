@@ -1,125 +1,165 @@
 ---
 import ArchitectureDiagrams from '../ArchitectureDiagrams.astro';
+import DiagramCallout from './primitives/DiagramCallout.astro';
+import DiagramDefs from './primitives/DiagramDefs.astro';
+import DiagramNode from './primitives/DiagramNode.astro';
+
+const defsId = 'route';
+const routes = [
+  {
+    x: 32,
+    path: '/app/{appId}/v1/*',
+    desc: 'App 专属业务 API',
+    example: 'babydiary/v1/records',
+    target: 'gateway → public-api',
+    color: '#dcecff',
+    w: 240,
+  },
+  {
+    x: 292,
+    path: '/v1/{domain}/*',
+    desc: '平台共享客户端入口',
+    example: 'auth · payment · config',
+    target: 'gateway → 共享 RPC',
+    color: '#dff4e6',
+    w: 240,
+  },
+  {
+    x: 552,
+    path: '/v1/storage/*',
+    desc: '文件上传与访问',
+    example: 'multipart · presign',
+    target: 'storage-api → file-rpc',
+    color: '#ffe1dc',
+    w: 240,
+  },
+  {
+    x: 812,
+    path: '/admin-api/*',
+    desc: '运营管理后台',
+    example: 'RBAC · 配置写入',
+    target: 'admin-api → config-rpc',
+    color: '#fff0c2',
+    w: 240,
+  },
+];
 ---
 
 <ArchitectureDiagrams
   id="diagram-routes"
   title="图 3 · APISIX 路由分流"
-  caption="对 App 只有一个认知：所有正式请求先进入 APISIX，再按路径前缀分流到不同门面。"
+  caption="对 App 只有一个认知：所有正式请求先进入 APISIX，再按路径前缀分流到不同门面与服务群。"
+  highlights={['四路前缀', 'appId 命名', '门面分流']}
 >
-  <svg viewBox="0 0 900 380" role="img" aria-label="APISIX 路由分流架构图">
-    <defs>
-      <marker id="arr3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-        <path d="M0,0 L6,3 L0,6 Z" fill="#111"></path>
-      </marker>
-    </defs>
-    <rect
-      x="340"
-      y="20"
-      width="220"
-      height="64"
-      rx="10"
-      fill="#1f8f5f"
-      stroke="#111"
-      stroke-width="2.5"></rect>
-    <text x="450" y="48" text-anchor="middle" font-size="16" font-weight="700" fill="#fff"
-      >APISIX</text
-    >
-    <text x="450" y="68" text-anchor="middle" font-size="11" fill="#dff4e6">唯一公网入口</text>
+  <svg viewBox="0 0 1100 460" role="img" aria-label="APISIX 路由分流架构图">
+    <DiagramDefs id={defsId} />
+    <rect width="1100" height="460" fill={`url(#${defsId}-grid)`}></rect>
 
-    <line x1="450" y1="84" x2="450" y2="120" stroke="#111" stroke-width="2"></line>
-    <line x1="120" y1="120" x2="780" y2="120" stroke="#111" stroke-width="2"></line>
+    <DiagramNode
+      x={430}
+      y={28}
+      w={240}
+      h={72}
+      title="APISIX"
+      subtitle="api.i2kai.com · 唯一公网入口"
+      variant="accent"
+      badge="L0"
+      defsId={defsId}
+    />
+
+    <line x1="550" y1="100" x2="550" y2="132" stroke="#111" stroke-width="2.5"></line>
+    <line x1="152" y1="132" x2="948" y2="132" stroke="#111" stroke-width="2.5"></line>
 
     {
-      [
-        {
-          x: 40,
-          path: '/app/{appId}/v1/*',
-          desc: 'App 业务 API',
-          target: 'public-api',
-          color: '#dcecff',
-        },
-        {
-          x: 240,
-          path: '/v1/{domain}/*',
-          desc: '平台共享 API',
-          target: 'auth/payment/...',
-          color: '#dff4e6',
-        },
-        {
-          x: 440,
-          path: '/v1/storage/*',
-          desc: '文件上传',
-          target: 'storage-api',
-          color: '#ffe1dc',
-        },
-        {
-          x: 640,
-          path: '/admin-api/*',
-          desc: '管理后台',
-          target: 'admin-api',
-          color: '#fff0c2',
-        },
-      ].map((r) => (
+      routes.map((r) => (
         <>
           <line
-            x1={r.x + 90}
-            y1="120"
-            x2={r.x + 90}
-            y2="150"
+            x1={r.x + r.w / 2}
+            y1="132"
+            x2={r.x + r.w / 2}
+            y2="158"
             stroke="#111"
-            stroke-width="2"
-            marker-end="url(#arr3)"
+            stroke-width="2.2"
+            marker-end={`url(#${defsId}-arrow)`}
           />
-          <rect
-            x={r.x}
-            y="155"
-            width="180"
-            height="100"
-            rx="8"
-            fill={r.color}
-            stroke="#111"
-            stroke-width="2"
-          />
-          <text
-            x={r.x + 90}
-            y="182"
-            text-anchor="middle"
-            font-size="11"
-            font-weight="700"
-            fill="#111"
-          >
-            {r.path}
-          </text>
-          <text x={r.x + 90} y="202" text-anchor="middle" font-size="11" fill="#5d625f">
-            {r.desc}
-          </text>
-          <text
-            x={r.x + 90}
-            y="238"
-            text-anchor="middle"
-            font-size="12"
-            font-weight="600"
-            fill="#111"
-          >
-            → {r.target}
-          </text>
+          <g filter={`url(#${defsId}-shadow)`}>
+            <rect
+              x={r.x}
+              y="162"
+              width={r.w}
+              height="148"
+              rx="12"
+              fill={r.color}
+              stroke="#111"
+              stroke-width="2"
+            />
+            <text
+              x={r.x + r.w / 2}
+              y="192"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="700"
+              fill="#111"
+            >
+              {r.path}
+            </text>
+            <text x={r.x + r.w / 2} y="214" text-anchor="middle" font-size="11" fill="#5d625f">
+              {r.desc}
+            </text>
+            <rect
+              x={r.x + 16}
+              y="228"
+              width={r.w - 32}
+              height="26"
+              rx="6"
+              fill="#fffdf8"
+              stroke="#111"
+              stroke-width="1"
+            />
+            <text x={r.x + r.w / 2} y="246" text-anchor="middle" font-size="10" fill="#5d625f">
+              例：{r.example}
+            </text>
+            <text
+              x={r.x + r.w / 2}
+              y="288"
+              text-anchor="middle"
+              font-size="12"
+              font-weight="700"
+              fill="#111"
+            >
+              → {r.target}
+            </text>
+          </g>
         </>
       ))
     }
 
-    <rect
-      x="60"
-      y="290"
-      width="780"
-      height="72"
-      rx="8"
-      fill="#fffdf8"
-      stroke="#111"
-      stroke-width="1.5"></rect>
-    <text x="80" y="318" font-size="12" font-weight="700" fill="#111">命名约定</text>
-    <text x="80" y="340" font-size="11" fill="#5d625f">
-      appKey = 目录名（kebab-case） · appId = 去连字符 · 例：baby-diary → babydiary
-    </text>
+    <DiagramCallout
+      x={32}
+      y={340}
+      w={520}
+      title="命名约定"
+      tone="neutral"
+      defsId={defsId}
+      lines={[
+        'appKey = apps/ 目录名（kebab-case）',
+        'appId = 去连字符（baby-diary → babydiary）',
+        'public-api 路由前缀 /app/{appId}/v1/*',
+      ]}
+    />
+
+    <DiagramCallout
+      x={568}
+      y={340}
+      w={500}
+      title="第三方回调"
+      tone="tip"
+      defsId={defsId}
+      lines={[
+        '微信支付 / 支付宝回调 → /v1/payment/*',
+        '推广短链 · 广告 postback → /v1/* 或 /s/*',
+        '不走 App 私有 /app/{appId} 路由',
+      ]}
+    />
   </svg>
 </ArchitectureDiagrams>

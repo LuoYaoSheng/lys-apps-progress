@@ -3,14 +3,27 @@ interface Props {
   id: string;
   title: string;
   caption: string;
+  highlights?: string[];
+  featured?: boolean;
 }
 
-const { id, title, caption } = Astro.props;
+const { id, title, caption, highlights = [], featured = false } = Astro.props;
 ---
 
-<figure class="arch-diagram-figure" id={id}>
+<figure class:list={['arch-diagram-figure', featured && 'arch-diagram-figure--featured']} id={id}>
   <figcaption>
-    <h3>{title}</h3>
+    <div class="arch-diagram-head">
+      <h3>{title}</h3>
+      {
+        highlights.length > 0 && (
+          <ul class="arch-diagram-highlights">
+            {highlights.map((h) => (
+              <li>{h}</li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
     <p>{caption}</p>
   </figcaption>
   <div class="arch-diagram-canvas">

@@ -1,0 +1,36 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const p = (name: string) => `${id}-${name}`;
+---
+
+<defs>
+  <linearGradient id={p('grad-green')} x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2aa872"></stop>
+    <stop offset="100%" stop-color="#1f8f5f"></stop>
+  </linearGradient>
+  <linearGradient id={p('grad-blue')} x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#3d8ef0"></stop>
+    <stop offset="100%" stop-color="#1d6fd4"></stop>
+  </linearGradient>
+  <linearGradient id={p('grad-amber')} x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#fff8e8"></stop>
+    <stop offset="100%" stop-color="#fff0c2"></stop>
+  </linearGradient>
+  <filter id={p('shadow')} x="-8%" y="-8%" width="116%" height="116%">
+    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#111" flood-opacity="0.12"
+    ></feDropShadow>
+  </filter>
+  <pattern id={p('grid')} width="24" height="24" patternUnits="userSpaceOnUse">
+    <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#111" stroke-width="0.4" opacity="0.06"></path>
+  </pattern>
+  <marker id={p('arrow')} markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+    <path d="M0,0 L7,3.5 L0,7 Z" fill="#111"></path>
+  </marker>
+  <marker id={p('arrow-green')} markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+    <path d="M0,0 L7,3.5 L0,7 Z" fill="#1f8f5f"></path>
+  </marker>
+</defs>
