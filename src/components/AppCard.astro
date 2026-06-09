@@ -11,7 +11,12 @@ const status = statusMeta[app.status];
 const fallback = app.name.slice(0, 1);
 ---
 
-<article class="app-card" data-delivery={app.delivery} data-status={app.status} data-category={app.category}>
+<article
+  class="app-card"
+  data-delivery={app.delivery}
+  data-status={app.status}
+  data-category={app.category}
+>
   <a href={`/apps/${app.slug}`} class="app-card-link" aria-label={`查看 ${app.name}`}>
     <div class="app-card-top">
       {

@@ -7,6 +7,8 @@ export type AppDelivery = keyof typeof deliveryLabels;
 export type AppProgress = {
   id: string;
   slug: string;
+  /** HUB 仓 apps/ 目录名，应用目录页展示后缀 */
+  projectKey?: string;
   name: string;
   tagline: string;
   delivery: AppDelivery;
@@ -22,6 +24,11 @@ export type AppProgress = {
   summary: string;
   highlights: string[];
 };
+
+/** 项目目录后缀，默认取 projectKey 或 id */
+export function getProjectKey(app: AppProgress): string {
+  return app.projectKey ?? app.id;
+}
 
 export const apps: AppProgress[] = [
   {
@@ -47,28 +54,30 @@ export const apps: AppProgress[] = [
     tagline: '移动应用界面快速拼接',
     delivery: 'app',
     category: 'image',
-    status: 'testing',
-    progress: 82,
-    month: '2026-04',
+    status: 'released',
+    progress: 100,
+    month: '2026-02',
+    shippedAt: '2026-02-10',
     icon: '/app-icons/snapkit.png',
     website: 'https://snapkit.anxiqing.cn',
-    summary: '移动应用界面快速拼接工具。',
-    highlights: ['截图拼接', '素材生产', '模板化流程'],
+    summary: '把多张截图快速拼成展示图，适合应用商店素材、设计稿预览与运营配图。',
+    highlights: ['截图拼接', '素材生产', '模板化流程', 'iOS / Android / Mac'],
   },
   {
     id: 'translator',
     slug: 'translator',
     name: '译言宝',
-    tagline: '轻量多语言翻译',
+    tagline: '文本 / 拍照 / 语音多模态翻译',
     delivery: 'app',
     category: 'productivity',
-    status: 'building',
-    progress: 66,
-    month: '2026-04',
+    status: 'released',
+    progress: 100,
+    month: '2026-03',
+    shippedAt: '2026-03-10',
     icon: '/app-icons/translator.png',
     website: 'https://translator.anxiqing.cn',
-    summary: '多语言翻译。',
-    highlights: ['多语言', '短文本', '学习辅助'],
+    summary: '面向移动场景的实时翻译工具，覆盖文本、拍照与语音输入，适合出行与日常沟通。',
+    highlights: ['多语言', '拍照翻译', '语音翻译', '渠道化运营'],
   },
   {
     id: 'image-compress',
@@ -78,12 +87,12 @@ export const apps: AppProgress[] = [
     delivery: 'app',
     category: 'image',
     status: 'building',
-    progress: 58,
+    progress: 70,
     month: '2026-04',
     icon: '/app-icons/slimpic.png',
     website: 'https://imagecompress.anxiqing.cn',
-    summary: '图片无损压缩。',
-    highlights: ['图片压缩', '批量处理', '本地优先'],
+    summary: '在尽量保持观感的前提下压缩图片体积，适合分享、上传与批量整理。',
+    highlights: ['无损/智能压缩', '批量处理', '本地优先'],
   },
   {
     id: 'emoji-maker',
@@ -92,12 +101,12 @@ export const apps: AppProgress[] = [
     tagline: '自定义表情包生成',
     delivery: 'app',
     category: 'image',
-    status: 'design',
-    progress: 38,
+    status: 'building',
+    progress: 50,
     month: '2026-05',
     icon: '/app-icons/emoji-maker.png',
     website: 'https://emojimaker.anxiqing.cn',
-    summary: '自定义表情包生成。',
+    summary: '把照片或素材做成可分享的表情包，强调趣味创作与社交传播。',
     highlights: ['表情包', '贴纸', '分享素材'],
   },
   {
@@ -108,11 +117,11 @@ export const apps: AppProgress[] = [
     delivery: 'app',
     category: 'image',
     status: 'testing',
-    progress: 76,
+    progress: 90,
     month: '2026-05',
     icon: '/app-icons/ledflashtext.png',
     website: 'https://ledflashtext.anxiqing.cn',
-    summary: 'LED滚动字幕。',
+    summary: '把手机变成全屏 LED 弹幕屏，可调颜色、速度与方向，适合应援与活动场景。',
     highlights: ['滚动字幕', '颜色方向速度', '离线使用'],
   },
   {
@@ -122,12 +131,13 @@ export const apps: AppProgress[] = [
     tagline: '配色采集和色卡整理',
     delivery: 'app',
     category: 'lifestyle',
-    status: 'building',
-    progress: 64,
-    month: '2026-05',
+    status: 'released',
+    progress: 100,
+    month: '2026-03',
+    shippedAt: '2026-03-10',
     icon: '/app-icons/colorpalette.png',
     website: 'https://colorpalette.anxiqing.cn',
-    summary: '颜色调色板工具。',
+    summary: '从图片提取配色、整理色卡，辅助 UI 设计与视觉灵感收集。',
     highlights: ['取色', '色卡', '设计辅助'],
   },
   {
@@ -385,8 +395,51 @@ export const apps: AppProgress[] = [
     highlights: ['AI 协作', '配置切换', '本地优先', '暂停维护', '开源项目'],
   },
   {
+    id: 'baby-diary',
+    slug: 'baby-diary',
+    projectKey: 'baby-diary',
+    name: '宝宝点滴',
+    tagline: '婴幼儿成长记录与家庭协作',
+    delivery: 'app',
+    category: 'lifestyle',
+    status: 'building',
+    progress: 75,
+    month: '2026-06',
+    summary: '记录喂养、作息与成长点滴，支持家庭成员协作与提醒。',
+    highlights: ['UniApp', '家庭协作', '记录提醒', '平台样板'],
+  },
+  {
+    id: 'cute-meow-circle',
+    slug: 'cute-meow-circle',
+    projectKey: 'cute-meow-circle',
+    name: '萌宠圈',
+    tagline: '萌宠内容与创作社区',
+    delivery: 'app',
+    category: 'lifestyle',
+    status: 'building',
+    progress: 70,
+    month: '2026-06',
+    summary: '萌宠内容浏览，问候图/表情包/九宫格创作与 AI 风格化。',
+    highlights: ['UniApp', '内容创作', '社交分享', '平台样板'],
+  },
+  {
+    id: 'nightingale-voice-changer',
+    slug: 'nightingale-voice-changer',
+    projectKey: 'nightingale-voice-changer',
+    name: '夜莺变声器',
+    tagline: '录音变声与音色库',
+    delivery: 'app',
+    category: 'tools',
+    status: 'building',
+    progress: 82,
+    month: '2026-06',
+    summary: '录音变声、音色库、历史同步与会员订阅，voice 链路样板 App。',
+    highlights: ['Flutter', '变声', '音色库', '平台样板'],
+  },
+  {
     id: 'apps-progress',
     slug: 'apps-progress',
+    projectKey: 'lys-apps-progress',
     name: '50 Builds Progress',
     tagline: '年度公开交付进度站',
     delivery: 'openSource',
@@ -431,6 +484,27 @@ export function sortAppsByStatus(items: AppProgress[]) {
   });
 }
 
+/** 排期用：优先展示待推进项（测试中 > 开发中 > 设计中 > 想法） */
+const planningRank: Record<AppStatus, number> = {
+  testing: 0,
+  building: 1,
+  design: 2,
+  idea: 3,
+  paused: 4,
+  released: 5,
+};
+
+export function sortAppsForPlanning(items: AppProgress[]) {
+  return [...items].sort((a, b) => {
+    const statusDiff = planningRank[a.status] - planningRank[b.status];
+    if (statusDiff !== 0) return statusDiff;
+    if (a.status === 'released') return a.name.localeCompare(b.name, 'zh-CN');
+    const progressDiff = b.progress - a.progress;
+    if (progressDiff !== 0) return progressDiff;
+    return a.name.localeCompare(b.name, 'zh-CN');
+  });
+}
+
 export const milestones = [
   {
     date: '2026-04-17',
@@ -440,17 +514,23 @@ export const milestones = [
   {
     date: '2026-04-20',
     title: '进度站独立成站',
-    summary: '用 Astro 建立公开进度、交付列表、时间线和愿望池入口。',
+    summary: '用 Astro 建立公开进度、交付列表、时间线和愿望池入口，部署至 apps.open.i2kai.com。',
   },
   {
     date: '2026-05',
     title: '第一批图像与轻工具同步',
-    summary: '快拼工坊、SlimPic、颜究生、LED 闪字等进入公开展示。',
+    summary: '格作、SlimPic、颜究生、LED 闪字等进入公开展示；开源项目同步到交付看板。',
+  },
+  {
+    date: '2026-06',
+    title: '公开与对内边界固化',
+    summary:
+      '新增公开体系说明页，明确本站只展示可公开元数据；内部台账与门禁数据留在 HUB 工作区内维护。',
   },
   {
     date: '2026-06',
     title: '候选池公开收集',
-    summary: '开放愿望池，用 Issue 承接外部应用想法和场景建议。',
+    summary: '开放愿望池，用 GitHub / Gitee Issue 承接外部应用想法和场景建议。',
   },
 ];
 

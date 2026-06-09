@@ -1,10 +1,12 @@
 export const siteMeta = {
   title: '50 Builds Progress',
-  description: '一年 50 个公开交付的进度站，记录小程序、APP、开源项目从想法、设计、开发到发布的过程。',
+  description:
+    '一年 50 个公开交付的进度站，记录小程序、APP、开源项目从想法、设计、开发到发布的过程。',
   siteUrl: 'https://apps.open.i2kai.com',
   siteName: '50 Builds Progress',
   author: 'LuoYaoSheng',
-  keywords: '50 apps, indie apps, app progress, mini program, open source, 独立开发, 应用开发, 小程序, 开源项目, 产品进度, 愿望池',
+  keywords:
+    '50 apps, indie apps, app progress, mini program, open source, 独立开发, 应用开发, 小程序, 开源项目, 产品进度, 愿望池',
   themeColor: '#111111',
   github: 'https://github.com/LuoYaoSheng/lys-apps-progress',
   gitee: 'https://gitee.com/luoyaosheng/lys-apps-progress',
@@ -16,9 +18,19 @@ export const siteMeta = {
 
 export const navItems = [
   { label: '进度', href: '/' },
+  { label: '架构', href: '/architecture' },
+  { label: '应用目录', href: '/catalog' },
   { label: '交付', href: '/apps' },
   { label: '时间线', href: '/timeline' },
   { label: '愿望池', href: '/wishlist' },
+];
+
+export const footerLinks = [
+  { label: '应用目录', href: '/catalog' },
+  { label: '整体架构', href: '/architecture' },
+  { label: '体系说明', href: '/about' },
+  { label: '开源汇总', href: 'https://open.i2kai.com', external: true },
+  { label: '个人站', href: 'https://i2kai.com', external: true },
 ];
 
 export const target = {

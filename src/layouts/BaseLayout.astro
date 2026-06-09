@@ -1,7 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import '../styles/global.css';
-import { siteMeta } from '../data/site';
+import { footerLinks, siteMeta } from '../data/site';
 
 interface Props {
   title?: string;
@@ -49,6 +49,17 @@ const pageTitle = title === siteMeta.title ? title : `${title} | ${siteMeta.site
       <div class="container footer-grid">
         <p>{siteMeta.siteName} · {siteMeta.author}</p>
         <div class="footer-links">
+          {
+            footerLinks.map((link) =>
+              link.external ? (
+                <a href={link.href} target="_blank" rel="noreferrer">
+                  {link.label}
+                </a>
+              ) : (
+                <a href={link.href}>{link.label}</a>
+              ),
+            )
+          }
           <a href={siteMeta.github} target="_blank" rel="noreferrer">GitHub</a>
           <a href={siteMeta.gitee} target="_blank" rel="noreferrer">Gitee</a>
           <a href="/wishlist">提交想法</a>

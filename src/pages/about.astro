@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  appFamilies,
+  deliveryTypes,
+  ecosystemLinks,
+  platformPublic,
+  publicBoundary,
+} from '../data/about';
+import { target } from '../data/site';
+---
+
+<BaseLayout title="公开体系" description="50 Builds 公开交付体系、站点边界与相关入口说明。">
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="section-kicker">PUBLIC SYSTEM</p>
+        <h1>公开体系说明</h1>
+        <p>
+          {target.year} 年度目标：{target.statement} 本页说明对外展示规则、交付类型与相关入口。
+        </p>
+      </div>
+    </section>
+
+    <section class="container about-stack">
+      <article class="detail-panel">
+        <p class="section-kicker">BOUNDARY</p>
+        <h2>{publicBoundary.title}</h2>
+        <p>{publicBoundary.summary}</p>
+        <div class="two-col-list">
+          <div>
+            <h3>本站展示</h3>
+            <ul class="tag-list">
+              {publicBoundary.publicIncludes.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+          <div>
+            <h3>本站不展示</h3>
+            <ul class="tag-list">
+              {publicBoundary.notIncluded.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="detail-panel">
+        <p class="section-kicker">DELIVERY TYPES</p>
+        <h2>三种公开交付</h2>
+        <div class="about-cards">
+          {
+            deliveryTypes.map((item) => (
+              <div class="about-card">
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <article class="detail-panel">
+        <p class="section-kicker">PLATFORM</p>
+        <h2>{platformPublic.title}</h2>
+        <p>{platformPublic.summary}</p>
+        <div class="about-cards">
+          {
+            platformPublic.capabilities.map((cap) => (
+              <div class="about-card">
+                <h3>{cap.name}</h3>
+                <p>{cap.note}</p>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <article class="detail-panel">
+        <p class="section-kicker">PRODUCT LINES</p>
+        <h2>每个 App 大致干什么</h2>
+        <p>按公开产品线归纳。具体进度与状态以 <a href="/apps">交付看板</a> 为准。</p>
+        <div class="about-cards">
+          {
+            appFamilies.map((family) => (
+              <div class="about-card">
+                <h3>{family.title}</h3>
+                <p>{family.desc}</p>
+                <p class="about-examples">{family.examples}</p>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <article class="detail-panel">
+        <p class="section-kicker">LINKS</p>
+        <h2>相关公开入口</h2>
+        <div class="link-grid">
+          {
+            ecosystemLinks.map((link) => (
+              <a class="link-card" href={link.href} target="_blank" rel="noreferrer">
+                <strong>{link.label}</strong>
+                <span>{link.desc}</span>
+              </a>
+            ))
+          }
+        </div>
+        <div class="section-actions" style="margin-top: 24px">
+          <a class="button-primary" href="/apps">查看全部交付</a>
+          <a class="button-secondary" href="/wishlist">提交想法</a>
+        </div>
+      </article>
+    </section>
+  </main>
+</BaseLayout>

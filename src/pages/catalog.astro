@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { apps, getProjectKey, sortAppsForPlanning } from '../data/apps';
+import { categoryLabels, deliveryLabels, statusMeta } from '../data/site';
+
+const catalogApps = sortAppsForPlanning(apps);
+const nextUp = catalogApps
+  .filter((a) => ['testing', 'building', 'design'].includes(a.status))
+  .slice(0, 5);
+---
+
+<BaseLayout
+  title="应用目录"
+  description="50 Builds 全部应用一览：图标、名称、简介、项目后缀与进度，便于团队排期决策。"
+>
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="section-kicker">APP CATALOG</p>
+        <h1>应用目录</h1>
+        <p>
+          一览每个应用干什么、项目目录后缀与当前进度。默认按「接下来该做哪个」排序：测试中 → 开发中
+          → 设计中 → 想法池。
+        </p>
+      </div>
+    </section>
+
+    {
+      nextUp.length > 0 && (
+        <section class="container catalog-next">
+          <p class="section-kicker">NEXT UP</p>
+          <h2>建议优先推进</h2>
+          <div class="catalog-next-row">
+            {nextUp.map((app) => {
+              const status = statusMeta[app.status];
+              const fallback = app.name.slice(0, 1);
+              return (
+                <a href={`/apps/${app.slug}`} class="catalog-next-chip">
+                  {app.icon ? (
+                    <img src={app.icon} alt="" width="28" height="28" />
+                  ) : (
+                    <span class="catalog-icon-fallback sm">{fallback}</span>
+                  )}
+                  <span>
+                    <strong>{app.name}</strong>
+                    <em>
+                      {status.label} · {app.progress}%
+                    </em>
+                  </span>
+                  <code>{getProjectKey(app)}</code>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      )
+    }
+
+    <section class="container catalog-section">
+      <div class="catalog-toolbar">
+        <input
+          type="search"
+          id="catalogSearch"
+          class="catalog-search"
+          placeholder="搜索应用名、简介或项目后缀…"
+          autocomplete="off"
+        />
+        <div class="filters" aria-label="状态筛选">
+          <button class="filter-pill is-active" data-status="all">全部</button>
+          {
+            Object.entries(statusMeta).map(([key, item]) => (
+              <button class="filter-pill" data-status={key}>
+                {item.label}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="catalog-table-wrap">
+        <table class="catalog-table" id="catalogTable">
+          <thead>
+            <tr>
+              <th class="col-icon"></th>
+              <th>应用名</th>
+              <th>简介</th>
+              <th>项目</th>
+              <th>类型</th>
+              <th>状态</th>
+              <th>进度</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              catalogApps.map((app) => {
+                const status = statusMeta[app.status];
+                const fallback = app.name.slice(0, 1);
+                const projectKey = getProjectKey(app);
+                return (
+                  <tr
+                    class="catalog-row"
+                    data-status={app.status}
+                    data-search={`${app.name} ${app.tagline} ${app.summary} ${projectKey} ${categoryLabels[app.category]}`}
+                  >
+                    <td class="col-icon">
+                      <a href={`/apps/${app.slug}`} class="catalog-icon-link">
+                        {app.icon ? (
+                          <img src={app.icon} alt="" class="catalog-icon" loading="lazy" />
+                        ) : (
+                          <span class="catalog-icon-fallback">{fallback}</span>
+                        )}
+                      </a>
+                    </td>
+                    <td class="col-name">
+                      <a href={`/apps/${app.slug}`}>
+                        <strong>{app.name}</strong>
+                        <span>{app.tagline}</span>
+                      </a>
+                    </td>
+                    <td class="col-summary">{app.summary}</td>
+                    <td class="col-project">
+                      <code title={`apps/${projectKey}`}>{projectKey}</code>
+                    </td>
+                    <td class="col-type">{deliveryLabels[app.delivery]}</td>
+                    <td class="col-status">
+                      <span class={`status-badge tone-${status.tone}`}>{status.label}</span>
+                    </td>
+                    <td class="col-progress">
+                      <div class="progress-track compact">
+                        <span style={`width: ${app.progress}%`} />
+                      </div>
+                      <span class="progress-pct">{app.progress}%</span>
+                    </td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="notice" id="catalogEmpty" hidden>没有匹配的应用。</p>
+      <p class="catalog-footnote">
+        「项目」列为 HUB 仓 <code>apps/</code> 目录后缀，开源项目为仓库名。点击应用名查看交付详情。
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const search = document.getElementById('catalogSearch');
+    const rows = document.querySelectorAll('.catalog-row');
+    const empty = document.getElementById('catalogEmpty');
+    const pills = document.querySelectorAll('[data-status]');
+    let statusFilter = 'all';
+
+    function applyCatalogFilters() {
+      const q = ((search as HTMLInputElement | null)?.value || '').trim().toLowerCase();
+      let visible = 0;
+      rows.forEach((row) => {
+        const status = row.getAttribute('data-status') || '';
+        const text = (row.getAttribute('data-search') || '').toLowerCase();
+        const statusOk = statusFilter === 'all' || status === statusFilter;
+        const searchOk = !q || text.includes(q);
+        const show = statusOk && searchOk;
+        row.toggleAttribute('hidden', !show);
+        if (show) visible += 1;
+      });
+      if (empty) empty.hidden = visible !== 0;
+    }
+
+    search?.addEventListener('input', applyCatalogFilters);
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        statusFilter = pill.getAttribute('data-status') || 'all';
+        pills.forEach((p) => p.classList.toggle('is-active', p === pill));
+        applyCatalogFilters();
+      });
+    });
+  </script>
+</BaseLayout>

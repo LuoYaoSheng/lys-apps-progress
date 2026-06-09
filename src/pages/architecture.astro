@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AppCard from '../components/AppCard.astro';
+import {
+  adminLayers,
+  architectureMeta,
+  layers,
+  platformModules,
+  referenceApps,
+  requestFlow,
+  routes,
+  sharedCapabilities,
+  statusLabels,
+} from '../data/architecture';
+import { appFamilies } from '../data/about';
+import { apps, getProgressStats, sortAppsByStatus } from '../data/apps';
+import { target } from '../data/site';
+
+const stats = getProgressStats();
+const completion = Math.round((stats.released / target.total) * 100);
+const releasedApps = sortAppsByStatus(apps.filter((a) => a.status === 'released')).slice(0, 8);
+const activeApps = sortAppsByStatus(
+  apps.filter((a) => ['building', 'testing', 'design'].includes(a.status)),
+).slice(0, 4);
+---
+
+<BaseLayout
+  title="整体架构"
+  description="HUB 多 App 生态架构速览：平台分层、请求链路、模块进度与交付对照。供团队外出协作同步。"
+>
+  <main>
+    <section class="page-title">
+      <div class="container">
+        <p class="section-kicker">TEAM SYNC · 更新 {architectureMeta.updatedAt}</p>
+        <h1>{architectureMeta.title}</h1>
+        <p>{architectureMeta.summary}</p>
+        <div class="section-actions" style="margin-top: 20px">
+          <a class="button-primary" href="/catalog">应用目录（排期用）</a>
+          <a class="button-secondary" href="/apps">交付看板</a>
+          <a class="button-secondary" href="/timeline">时间线</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 进度快照：出门一眼看交付 -->
+    <section class="container arch-snapshot">
+      <div class="snapshot-grid">
+        <div class="snapshot-card snapshot-highlight">
+          <span class="snapshot-label">年度进度</span>
+          <strong class="snapshot-value">{stats.released}<span>/ {target.total}</span></strong>
+          <div class="progress-track" aria-label={`完成 ${completion}%`}>
+            <span style={`width: ${completion}%`}></span>
+          </div>
+          <span class="snapshot-note">{completion}% · 已发布 {stats.released} 个公开作品</span>
+        </div>
+        <div class="snapshot-card">
+          <span class="snapshot-label">开发中</span>
+          <strong class="snapshot-value">{stats.active}</strong>
+          <span class="snapshot-note">building / testing / design</span>
+        </div>
+        <div class="snapshot-card">
+          <span class="snapshot-label">开源项目</span>
+          <strong class="snapshot-value">{stats.openSource}</strong>
+          <span class="snapshot-note">见 open.i2kai.com</span>
+        </div>
+        <div class="snapshot-card">
+          <span class="snapshot-label">APP + 小程序</span>
+          <strong class="snapshot-value">{stats.appCount + stats.miniPrograms}</strong>
+          <span class="snapshot-note">移动交付条目</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 三层结构 -->
+    <section class="container about-stack">
+      <article class="detail-panel">
+        <p class="section-kicker">LAYERS</p>
+        <h2>三层结构</h2>
+        <div class="layer-stack">
+          {
+            layers.map((layer, i) => (
+              <div class="layer-row">
+                <span class="layer-index">{i + 1}</span>
+                <div>
+                  <h3>{layer.name}</h3>
+                  <p>{layer.role}</p>
+                  <code class="layer-code">{layer.examples}</code>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <!-- 请求链路 -->
+      <article class="detail-panel">
+        <p class="section-kicker">REQUEST FLOW</p>
+        <h2>请求怎么走</h2>
+        <p>对任何 App，固定认知：<strong>所有正式请求先进入 APISIX</strong>，再按路径分流。</p>
+        <div class="flow-chain">
+          {
+            requestFlow.map((node) => (
+              <div class="flow-node">
+                <strong>{node.step}</strong>
+                <span>{node.desc}</span>
+              </div>
+            ))
+          }
+        </div>
+        <table class="arch-table">
+          <thead>
+            <tr><th>路径</th><th>用途</th></tr>
+          </thead>
+          <tbody>
+            {
+              routes.map((r) => (
+                <tr>
+                  <td>
+                    <code>{r.path}</code>
+                  </td>
+                  <td>{r.desc}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </article>
+
+      <!-- 平台模块进度 -->
+      <article class="detail-panel">
+        <p class="section-kicker">PLATFORM</p>
+        <h2>平台模块完成度</h2>
+        <table class="arch-table">
+          <thead>
+            <tr><th>模块</th><th>状态</th><th>说明</th></tr>
+          </thead>
+          <tbody>
+            {
+              platformModules.map((m) => (
+                <tr>
+                  <td>
+                    <strong>{m.name}</strong>
+                  </td>
+                  <td>
+                    <span class={`status-pill status-${m.status}`}>{statusLabels[m.status]}</span>
+                  </td>
+                  <td>{m.note}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </article>
+
+      <!-- 共享能力 -->
+      <article class="detail-panel">
+        <p class="section-kicker">CAPABILITIES</p>
+        <h2>共享能力域</h2>
+        <p>多个 App 复用平台能力，避免每个产品重复做账号、支付、语音等基础模块。</p>
+        <div class="about-cards">
+          {
+            sharedCapabilities.map((cap) => (
+              <div class="about-card">
+                <h3>{cap.name}</h3>
+                <p>{cap.apps}</p>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <!-- Admin -->
+      <article class="detail-panel">
+        <p class="section-kicker">ADMIN</p>
+        <h2>管理后台分层</h2>
+        <ul class="tag-list">
+          {adminLayers.map((l) => <li>{l}</li>)}
+        </ul>
+      </article>
+
+      <!-- 样板 App -->
+      <article class="detail-panel">
+        <p class="section-kicker">REFERENCE APPS</p>
+        <h2>四 App 样板（每个干什么）</h2>
+        <p>平台参照的代表性应用，覆盖 UniApp / Flutter 与不同能力组合。</p>
+        <div class="ref-app-grid">
+          {
+            referenceApps.map((app) => (
+              <div class="ref-app-card">
+                <h3>{app.name}</h3>
+                <code>{app.appKey}</code>
+                <p>{app.purpose}</p>
+                <span class="ref-tech">{app.tech}</span>
+                {app.slug ? (
+                  <a
+                    class="button-secondary"
+                    href={`/apps/${app.slug}`}
+                    style="margin-top:12px;display:inline-block"
+                  >
+                    看公开进度 →
+                  </a>
+                ) : (
+                  <span class="ref-note">业务样板 · 进度见交付看板同类条目</span>
+                )}
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <!-- 产品线 -->
+      <article class="detail-panel">
+        <p class="section-kicker">PRODUCT LINES</p>
+        <h2>交付产品线</h2>
+        <div class="about-cards">
+          {
+            appFamilies.map((f) => (
+              <div class="about-card">
+                <h3>{f.title}</h3>
+                <p>{f.desc}</p>
+                <p class="about-examples">{f.examples}</p>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <!-- 已发布 + 进行中 -->
+      <article class="detail-panel">
+        <p class="section-kicker">DELIVERY BOARD</p>
+        <h2>已发布作品</h2>
+        <div class="app-grid" style="margin-top:16px">
+          {releasedApps.map((app) => <AppCard app={app} />)}
+        </div>
+        {
+          activeApps.length > 0 && (
+            <>
+              <h2 style="margin-top:32px">正在推进</h2>
+              <div class="app-grid" style="margin-top:16px">
+                {activeApps.map((app) => (
+                  <AppCard app={app} />
+                ))}
+              </div>
+            </>
+          )
+        }
+        <div class="section-actions" style="margin-top:24px">
+          <a class="button-primary" href="/apps">查看完整交付看板（{apps.length} 条）</a>
+        </div>
+      </article>
+    </section>
+  </main>
+</BaseLayout>

@@ -24,7 +24,9 @@ const completion = Math.round((stats.released / target.total) * 100);
           小程序、APP、开源项目都算交付。从想法、设计、开发、测试到发布，每个公开作品都留下进度。
         </p>
         <div class="hero-actions">
-          <a class="button-primary" href="/apps">查看交付进度</a>
+          <a class="button-primary" href="/catalog">应用目录</a>
+          <a class="button-secondary" href="/architecture">整体架构</a>
+          <a class="button-secondary" href="/apps">交付看板</a>
           <a class="button-secondary" href="/wishlist">提交想法</a>
         </div>
         <div class="metric-strip" aria-label="年度进度">
@@ -69,10 +71,37 @@ const completion = Math.round((stats.released / target.total) * 100);
     <section class="section">
       <div class="container story-grid">
         <div class="story-panel">
+          <p class="section-kicker">TEAM SYNC</p>
+          <h2>出门也能对齐进度</h2>
+          <p>
+            打开 <strong>架构页</strong> 即可和团队同步：平台分层、模块完成度、每个 App 干什么、已发布与进行中的交付。数据与交付看板同源。
+          </p>
+          <div class="section-actions">
+            <a class="button-primary" href="/architecture">打开整体架构</a>
+            <a class="button-secondary" href="/apps">交付看板</a>
+          </div>
+        </div>
+        <div class="story-panel">
+          <p class="section-kicker">OVERVIEW</p>
+          <h2>年度完成 {completion}%</h2>
+          <p>
+            已发布 {stats.released} / 目标 {target.total}。含小程序、APP、开源项目三类交付。
+          </p>
+          <div class="progress-track" style="margin-top:16px" aria-label={`${completion}%`}>
+            <span style={`width: ${completion}%`}></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container story-grid">
+        <div class="story-panel">
           <p class="section-kicker">THE RULE</p>
           <h2>每个交付都要小而完整</h2>
           <p>
-            目标不是堆功能。每个小程序、APP 或开源项目都抓一个明确场景，先完成能被真实使用、能被截图传播、能被持续迭代的版本。
+            目标不是堆功能。每个小程序、APP
+            或开源项目都抓一个明确场景，先完成能被真实使用、能被截图传播、能被持续迭代的版本。
           </p>
           <div class="section-actions">
             <a class="button-primary" href="/timeline">看时间线</a>

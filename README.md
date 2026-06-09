@@ -1,5 +1,8 @@
 # 50 Builds Progress
 
+> **工作目录：** `HUB-Ecosystem-v2/content/website/apps-progress`（与 Open 部署仓同步）  
+> **本地启动：** `bash ../dev.sh` · **线上：** https://apps.open.i2kai.com
+
 一年 50 个公开交付的进度站。
 
 这个仓库只展示公开信息：小程序、APP、开源项目的名称、定位、阶段、宣传文案、截图或图标、公开进展。它不承载内部台账、私有排期、云服务器部署脚本或具体私有应用源码。
@@ -19,17 +22,29 @@
 
 ## 页面
 
-- `/`
-- `/apps`
-- `/apps/[slug]`
-- `/timeline`
-- `/wishlist`
+- `/` — 年度进度首页
+- `/apps` — 全部公开交付
+- `/apps/[slug]` — 单个交付详情
+- `/about` — **公开体系说明**（对外/对内边界、产品线归纳、相关入口）
+- `/timeline` — 时间线
+- `/wishlist` — 愿望池
 
 ## 数据
 
 公开交付数据在 `src/data/apps.ts`。
 
+公开体系与边界说明在 `src/data/about.ts`。
+
 站点配置在 `src/data/site.ts`，包括站点域名、导航、GitHub/Gitee 链接和愿望池提交入口。
+
+## 公开与对内边界
+
+| 层级             | 位置                                      | 用途                                        |
+| ---------------- | ----------------------------------------- | ------------------------------------------- |
+| **对外（本站）** | `lys-apps-progress` → apps.open.i2kai.com | 公开交付元数据、落地页、愿望池 Issue        |
+| **对内**         | HUB 仓 `apps/progress-display`            | 门禁 `apps.json`、内部 API 心愿单、宣传素材 |
+
+两处数据**不会自动同步**。更新已发布状态时，公开站改 `src/data/apps.ts`；若 HUB 门禁也要联动，再改内部 `data/apps.json`。
 
 ## 愿望池
 
