@@ -1012,13 +1012,77 @@ img {
   line-height: 1.5;
 }
 
+.arch-diagram-viewport {
+  position: relative;
+}
+
+.arch-diagram-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-strong);
+}
+
+.diagram-tool {
+  min-width: 34px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  background: var(--panel);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.diagram-tool:hover {
+  background: var(--green-soft);
+}
+
+.diagram-tool--wide {
+  margin-left: auto;
+}
+
+.diagram-scale {
+  min-width: 52px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
 .arch-diagram-canvas {
+  position: relative;
   padding: 16px;
-  overflow-x: auto;
+  overflow: hidden;
+  cursor: grab;
   background:
     linear-gradient(90deg, rgba(17, 17, 17, 0.025) 1px, transparent 1px),
     linear-gradient(180deg, rgba(17, 17, 17, 0.025) 1px, transparent 1px), #fffdf8;
   background-size: 20px 20px;
+  min-height: 280px;
+  touch-action: none;
+}
+
+.arch-diagram-canvas.is-panning {
+  cursor: grabbing;
+}
+
+.arch-diagram-stage {
+  transform-origin: center center;
+  transition: transform 0.05s linear;
+  will-change: transform;
+}
+
+.arch-diagram-hint {
+  margin: 0;
+  padding: 8px 14px 12px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--panel-strong);
 }
 
 .arch-diagram-canvas svg {
@@ -1028,6 +1092,252 @@ img {
   height: auto;
 }
 
+.diagram-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+
+.diagram-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.diagram-lightbox-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: min(1280px, calc(100% - 24px));
+  height: min(88vh, 900px);
+  margin: 6vh auto 0;
+  border: 2px solid var(--ink);
+  border-radius: calc(var(--radius) + 2px);
+  background: var(--panel);
+  box-shadow: 12px 12px 0 var(--ink);
+  overflow: hidden;
+}
+
+.diagram-lightbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-strong);
+}
+
+.diagram-lightbox-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.diagram-lightbox-canvas {
+  flex: 1;
+  overflow: hidden;
+  cursor: grab;
+  background:
+    linear-gradient(90deg, rgba(17, 17, 17, 0.025) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 17, 17, 0.025) 1px, transparent 1px), #fffdf8;
+  background-size: 20px 20px;
+  touch-action: none;
+}
+
+body.diagram-lightbox-open {
+  overflow: hidden;
+}
+
+.arch-microservices,
+.arch-flows {
+  padding-bottom: 32px;
+}
+
+.micro-topology {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.micro-layer-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.layer-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.layer-pill--entry {
+  background: #dff4e6;
+}
+
+.layer-pill--protocol {
+  background: #dcecff;
+}
+
+.layer-pill--admin {
+  background: #fff0c2;
+}
+
+.layer-pill--domain {
+  background: #e7e3db;
+}
+
+.layer-pill--http-support {
+  background: #ffe1dc;
+}
+
+.micro-filters {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.micro-search {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.micro-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-pill {
+  padding: 8px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filter-pill.is-active,
+.filter-pill:hover {
+  background: var(--green-soft);
+}
+
+.micro-table-wrap {
+  overflow-x: auto;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.micro-table td {
+  vertical-align: top;
+}
+
+.micro-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.kind-code,
+.path-code {
+  font-size: 11px;
+  word-break: break-word;
+}
+
+.flow-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.flow-card {
+  padding: 18px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.flow-card-head {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.flow-index {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--green-soft);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.flow-card-head h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.flow-card-head p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.flow-steps {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.flow-steps li + li {
+  margin-top: 6px;
+}
+
+.flow-related {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.flow-related code {
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel-strong);
+  font-size: 11px;
+  color: var(--ink);
+}
+
 @media (max-width: 900px) {
   .constraint-grid {
     grid-template-columns: 1fr;
@@ -1035,6 +1345,10 @@ img {
 
   .arch-diagram-head {
     flex-direction: column;
+  }
+
+  .flow-cards {
+    grid-template-columns: 1fr;
   }
 }
 

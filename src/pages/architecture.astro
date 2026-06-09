@@ -14,6 +14,14 @@ import {
   sharedCapabilities,
   statusLabels,
 } from '../data/architecture';
+import {
+  mainFlows,
+  microserviceMeta,
+  platformServices,
+  serviceKindLabels,
+  serviceLayerLabels,
+  serviceLayerOrder,
+} from '../data/microservices';
 import { apps, getProgressStats } from '../data/apps';
 import { target } from '../data/site';
 
@@ -87,6 +95,8 @@ const completion = Math.round((stats.released / target.total) * 100);
         <a href="#diagram-admin">④ Admin</a>
         <a href="#diagram-lifecycle">⑤ 启动支付</a>
         <a href="#diagram-production">⑥ 生产拓扑</a>
+        <a href="#microservices">⑦ 微服务索引</a>
+        <a href="#main-flows">⑧ 主流程</a>
       </nav>
       <div class="arch-diagrams-grid">
         <EcosystemOverview />
@@ -95,6 +105,130 @@ const completion = Math.round((stats.released / target.total) * 100);
         <AdminFlow />
         <AppLifecycle />
         <ProductionTopo />
+      </div>
+    </section>
+
+    <section class="container arch-microservices" id="microservices">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">MICROSERVICES</p>
+          <h2>微服务索引</h2>
+          <p>
+            摘要自 HUB 主仓 <code>{microserviceMeta.source}</code>（{
+              microserviceMeta.updatedAt
+            }）。共 {platformServices.length} 个平台组件与服务。
+          </p>
+          <p class="micro-topology">
+            <strong>拓扑：</strong>{microserviceMeta.topology}
+          </p>
+        </div>
+      </div>
+
+      <div class="micro-layer-legend">
+        {
+          serviceLayerOrder.map((layer) => (
+            <span class={`layer-pill layer-pill--${layer}`}>{serviceLayerLabels[layer]}</span>
+          ))
+        }
+      </div>
+
+      <div class="micro-filters">
+        <input
+          type="search"
+          id="microSearch"
+          class="micro-search"
+          placeholder="搜索服务名、路径、职责…"
+          aria-label="搜索微服务"
+        />
+        <div class="micro-filter-pills" role="group" aria-label="按层次筛选">
+          <button type="button" class="filter-pill is-active" data-micro-layer="all">全部</button>
+          {
+            serviceLayerOrder.map((layer) => (
+              <button type="button" class="filter-pill" data-micro-layer={layer}>
+                {serviceLayerLabels[layer]}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="micro-table-wrap">
+        <table class="arch-table micro-table">
+          <thead>
+            <tr>
+              <th>服务</th>
+              <th>层次</th>
+              <th>形态</th>
+              <th>路径 / 域</th>
+              <th>主责</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              platformServices.map((svc) => (
+                <tr
+                  class="micro-row"
+                  data-micro-layer={svc.layer}
+                  data-micro-search={`${svc.name} ${svc.paths} ${svc.responsibility} ${svc.note || ''}`}
+                >
+                  <td>
+                    <strong>{svc.name}</strong>
+                    {svc.note && <span class="micro-note">{svc.note}</span>}
+                  </td>
+                  <td>
+                    <span class={`layer-pill layer-pill--${svc.layer}`}>
+                      {serviceLayerLabels[svc.layer]}
+                    </span>
+                  </td>
+                  <td>
+                    <code class="kind-code">{serviceKindLabels[svc.kind]}</code>
+                  </td>
+                  <td>
+                    <code class="path-code">{svc.paths}</code>
+                  </td>
+                  <td>{svc.responsibility}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="notice" id="microEmpty" hidden>没有匹配的服务。</p>
+    </section>
+
+    <section class="container arch-flows" id="main-flows">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">MAIN FLOWS</p>
+          <h2>四条主流程（代码冻结版）</h2>
+          <p>与微服务索引 §2.6 对齐，便于排查「配置写了为何没生效」「上传/支付/发码走哪条链」。</p>
+        </div>
+      </div>
+      <div class="flow-cards">
+        {
+          mainFlows.map((flow, i) => (
+            <article class="flow-card" id={`flow-${flow.id}`}>
+              <header class="flow-card-head">
+                <span class="flow-index">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{flow.title}</h3>
+                  <p>{flow.summary}</p>
+                </div>
+              </header>
+              <ol class="flow-steps">
+                {flow.steps.map((step) => (
+                  <li>{step}</li>
+                ))}
+              </ol>
+              <footer class="flow-related">
+                <span>涉及：</span>
+                {flow.relatedServices.map((name) => (
+                  <code>{name}</code>
+                ))}
+              </footer>
+            </article>
+          ))
+        }
       </div>
     </section>
 
@@ -204,4 +338,201 @@ const completion = Math.round((stats.released / target.total) * 100);
       </article>
     </section>
   </main>
+
+  <div class="diagram-lightbox" data-diagram-lightbox hidden>
+    <div class="diagram-lightbox-backdrop" data-diagram-lightbox-close></div>
+    <div class="diagram-lightbox-panel" role="dialog" aria-modal="true" aria-label="架构图全屏">
+      <header class="diagram-lightbox-header">
+        <strong data-diagram-lightbox-title></strong>
+        <div class="diagram-lightbox-tools">
+          <button type="button" class="diagram-tool" data-lightbox-action="zoom-out">−</button>
+          <span class="diagram-scale" data-lightbox-scale>100%</span>
+          <button type="button" class="diagram-tool" data-lightbox-action="zoom-in">+</button>
+          <button type="button" class="diagram-tool" data-lightbox-action="reset">重置</button>
+          <button type="button" class="diagram-tool" data-lightbox-action="close">关闭</button>
+        </div>
+      </header>
+      <div class="diagram-lightbox-canvas" data-lightbox-canvas>
+        <div class="arch-diagram-stage" data-lightbox-stage></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    type ZoomState = { scale: number; x: number; y: number };
+
+    function clamp(n: number, min: number, max: number) {
+      return Math.min(max, Math.max(min, n));
+    }
+
+    function applyTransform(stage: HTMLElement, state: ZoomState) {
+      stage.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+    }
+
+    function formatScale(scale: number) {
+      return `${Math.round(scale * 100)}%`;
+    }
+
+    function createZoomController(
+      canvas: HTMLElement,
+      stage: HTMLElement,
+      scaleEl: HTMLElement | null,
+      initialScale = 1,
+    ) {
+      const state: ZoomState = { scale: initialScale, x: 0, y: 0 };
+      let dragging = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      const render = () => {
+        applyTransform(stage, state);
+        if (scaleEl) scaleEl.textContent = formatScale(state.scale);
+      };
+
+      const zoomBy = (delta: number) => {
+        state.scale = clamp(state.scale + delta, 0.5, 3);
+        render();
+      };
+
+      const reset = () => {
+        state.scale = initialScale;
+        state.x = 0;
+        state.y = 0;
+        render();
+      };
+
+      canvas.addEventListener(
+        'wheel',
+        (event) => {
+          event.preventDefault();
+          zoomBy(event.deltaY < 0 ? 0.12 : -0.12);
+        },
+        { passive: false },
+      );
+
+      canvas.addEventListener('pointerdown', (event) => {
+        if ((event.target as HTMLElement).closest('[data-diagram-action]')) return;
+        dragging = true;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        canvas.setPointerCapture(event.pointerId);
+        canvas.classList.add('is-panning');
+      });
+
+      canvas.addEventListener('pointermove', (event) => {
+        if (!dragging) return;
+        state.x += event.clientX - lastX;
+        state.y += event.clientY - lastY;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        render();
+      });
+
+      const stopDrag = (event: PointerEvent) => {
+        if (!dragging) return;
+        dragging = false;
+        canvas.classList.remove('is-panning');
+        canvas.releasePointerCapture(event.pointerId);
+      };
+
+      canvas.addEventListener('pointerup', stopDrag);
+      canvas.addEventListener('pointercancel', stopDrag);
+      canvas.addEventListener('dblclick', reset);
+
+      render();
+      return { zoomBy, reset, getState: () => state, render };
+    }
+
+    const figures = document.querySelectorAll('[data-diagram-figure]');
+    const lightbox = document.querySelector('[data-diagram-lightbox]') as HTMLElement | null;
+    const lightboxTitle = document.querySelector('[data-diagram-lightbox-title]');
+    const lightboxStage = document.querySelector('[data-lightbox-stage]') as HTMLElement | null;
+    const lightboxCanvas = document.querySelector('[data-lightbox-canvas]') as HTMLElement | null;
+    const lightboxScale = document.querySelector('[data-lightbox-scale]') as HTMLElement | null;
+    let lightboxZoom: ReturnType<typeof createZoomController> | null = null;
+
+    figures.forEach((figure) => {
+      const canvas = figure.querySelector('[data-diagram-canvas]') as HTMLElement | null;
+      const stage = figure.querySelector('[data-diagram-stage]') as HTMLElement | null;
+      const scaleEl = figure.querySelector('[data-diagram-scale]') as HTMLElement | null;
+      if (!canvas || !stage) return;
+
+      const zoom = createZoomController(canvas, stage, scaleEl);
+
+      figure.querySelectorAll('[data-diagram-action]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const action = button.getAttribute('data-diagram-action');
+          if (action === 'zoom-in') zoom.zoomBy(0.15);
+          if (action === 'zoom-out') zoom.zoomBy(-0.15);
+          if (action === 'reset') zoom.reset();
+          if (action === 'expand' && lightbox && lightboxStage && lightboxCanvas) {
+            const title = figure.getAttribute('data-diagram-title') || '架构图';
+            if (lightboxTitle) lightboxTitle.textContent = title;
+            lightboxStage.innerHTML = stage.innerHTML;
+            lightbox.hidden = false;
+            document.body.classList.add('diagram-lightbox-open');
+            lightboxZoom = createZoomController(lightboxCanvas, lightboxStage, lightboxScale, 1);
+          }
+        });
+      });
+    });
+
+    const closeLightbox = () => {
+      if (!lightbox) return;
+      lightbox.hidden = true;
+      if (lightboxStage) lightboxStage.innerHTML = '';
+      document.body.classList.remove('diagram-lightbox-open');
+      lightboxZoom = null;
+    };
+
+    document
+      .querySelectorAll('[data-lightbox-action], [data-diagram-lightbox-close]')
+      .forEach((el) => {
+        el.addEventListener('click', () => {
+          const action = el.getAttribute('data-lightbox-action');
+          if (action === 'close' || el.hasAttribute('data-diagram-lightbox-close')) {
+            closeLightbox();
+            return;
+          }
+          if (!lightboxZoom) return;
+          if (action === 'zoom-in') lightboxZoom.zoomBy(0.15);
+          if (action === 'zoom-out') lightboxZoom.zoomBy(-0.15);
+          if (action === 'reset') lightboxZoom.reset();
+        });
+      });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeLightbox();
+    });
+
+    const microSearch = document.getElementById('microSearch') as HTMLInputElement | null;
+    const microRows = document.querySelectorAll('.micro-row');
+    const microEmpty = document.getElementById('microEmpty');
+    const microPills = document.querySelectorAll('.micro-filter-pills [data-micro-layer]');
+    let microLayer = 'all';
+
+    function applyMicroFilters() {
+      const q = (microSearch?.value || '').trim().toLowerCase();
+      let visible = 0;
+      microRows.forEach((row) => {
+        const layer = row.getAttribute('data-micro-layer') || '';
+        const text = (row.getAttribute('data-micro-search') || '').toLowerCase();
+        const layerOk = microLayer === 'all' || layer === microLayer;
+        const searchOk = !q || text.includes(q);
+        const show = layerOk && searchOk;
+        row.toggleAttribute('hidden', !show);
+        if (show) visible += 1;
+      });
+      if (microEmpty) microEmpty.hidden = visible !== 0;
+    }
+
+    microSearch?.addEventListener('input', applyMicroFilters);
+    microPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        microLayer = pill.getAttribute('data-micro-layer') || 'all';
+        microPills.forEach((p) => p.classList.toggle('is-active', p === pill));
+        applyMicroFilters();
+      });
+    });
+  </script>
 </BaseLayout>

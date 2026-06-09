@@ -10,7 +10,12 @@ interface Props {
 const { id, title, caption, highlights = [], featured = false } = Astro.props;
 ---
 
-<figure class:list={['arch-diagram-figure', featured && 'arch-diagram-figure--featured']} id={id}>
+<figure
+  class:list={['arch-diagram-figure', featured && 'arch-diagram-figure--featured']}
+  id={id}
+  data-diagram-figure
+  data-diagram-title={title}
+>
   <figcaption>
     <div class="arch-diagram-head">
       <h3>{title}</h3>
@@ -26,7 +31,32 @@ const { id, title, caption, highlights = [], featured = false } = Astro.props;
     </div>
     <p>{caption}</p>
   </figcaption>
-  <div class="arch-diagram-canvas">
-    <slot />
+  <div class="arch-diagram-viewport">
+    <div class="arch-diagram-toolbar" aria-label="架构图缩放控制">
+      <button type="button" class="diagram-tool" data-diagram-action="zoom-out" title="缩小"
+        >−</button
+      >
+      <span class="diagram-scale" data-diagram-scale>100%</span>
+      <button type="button" class="diagram-tool" data-diagram-action="zoom-in" title="放大"
+        >+</button
+      >
+      <button type="button" class="diagram-tool" data-diagram-action="reset" title="重置"
+        >重置</button
+      >
+      <button
+        type="button"
+        class="diagram-tool diagram-tool--wide"
+        data-diagram-action="expand"
+        title="全屏查看"
+      >
+        全屏
+      </button>
+    </div>
+    <div class="arch-diagram-canvas" data-diagram-canvas>
+      <div class="arch-diagram-stage" data-diagram-stage>
+        <slot />
+      </div>
+    </div>
+    <p class="arch-diagram-hint">滚轮缩放 · 拖拽平移 · 双击重置</p>
   </div>
 </figure>
